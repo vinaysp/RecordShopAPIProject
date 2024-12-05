@@ -28,12 +28,6 @@ public class Artist{
         this.artistName = artistName;
     }
 
-    public Artist(Long id, String artistName, List<Album> albums) {
-        this.id = id;
-        this.artistName = artistName;
-        this.albums = albums;
-    }
-
     Artist(){};
 
 }
