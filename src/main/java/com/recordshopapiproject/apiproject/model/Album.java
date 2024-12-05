@@ -45,17 +45,6 @@ public class Album {
         this.price = price;
     }
 
-    public Album(Long id, String name, Artist artist, int releaseYear, Genre genre, String description, int stock, double price) {
-        this.id = id;
-        this.name = name;
-        this.artist = artist;
-        this.releaseYear = releaseYear;
-        this.genre = genre;
-        this.description = description;
-        this.stock = stock;
-        this.price = price;
-    }
-
     Album(){};
 
 }
