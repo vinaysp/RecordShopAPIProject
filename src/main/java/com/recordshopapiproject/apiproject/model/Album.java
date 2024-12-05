@@ -29,21 +29,31 @@ public class Album {
     @Column
     String description;
 
-    public Album(String name, Artist artist, int releaseYear, Genre genre, String description) {
+    @Column
+    int stock;
+
+    @Column
+    double price;
+
+    public Album(String name, Artist artist, int releaseYear, Genre genre, String description, int stock, double price) {
         this.name = name;
         this.artist = artist;
         this.releaseYear = releaseYear;
         this.genre = genre;
         this.description = description;
+        this.stock = stock;
+        this.price = price;
     }
 
-    public Album(Long id, String name, Artist artist, int releaseYear, Genre genre, String description) {
+    public Album(Long id, String name, Artist artist, int releaseYear, Genre genre, String description, int stock, double price) {
         this.id = id;
         this.name = name;
         this.artist = artist;
         this.releaseYear = releaseYear;
         this.genre = genre;
         this.description = description;
+        this.stock = stock;
+        this.price = price;
     }
 
     Album(){};
