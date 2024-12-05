@@ -1,4 +1,4 @@
-package com.RecordShopAPIProject.APIproject.model;
+package com.recordshopapiproject.apiproject.model;
 
 import jakarta.persistence.*;
 import lombok.*;

@@ -1,8 +1,8 @@
-package com.RecordShopAPIProject.APIproject.repository;
+package com.recordshopapiproject.apiproject.repository;
 
-import com.RecordShopAPIProject.APIproject.model.Album;
-import com.RecordShopAPIProject.APIproject.model.Artist;
-import com.RecordShopAPIProject.APIproject.model.Genre;
+import com.recordshopapiproject.apiproject.model.Album;
+import com.recordshopapiproject.apiproject.model.Artist;
+import com.recordshopapiproject.apiproject.model.Genre;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;

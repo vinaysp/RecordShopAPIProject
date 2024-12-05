@@ -1,4 +1,4 @@
-package com.RecordShopAPIProject.APIproject.model;
+package com.recordshopapiproject.apiproject.model;
 
 public enum Genre {
     Pop,
