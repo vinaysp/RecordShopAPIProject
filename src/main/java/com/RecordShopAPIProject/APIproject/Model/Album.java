@@ -1,9 +1,14 @@
 package com.RecordShopAPIProject.APIproject.Model;
 
 import jakarta.persistence.*;
+import lombok.*;
+import org.hibernate.annotations.Cascade;
 
 import java.time.Year;
+import java.util.List;
 
+@Setter
+@Getter
 @Entity
 public class Album {
 
@@ -15,11 +20,12 @@ public class Album {
     @Column
     String name;
 
-    @Column
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "artist_id")
     Artist artist;
 
     @Column
-    Year releaseYear;
+    int releaseYear;
 
     @Column
     Genre genre;
@@ -27,7 +33,15 @@ public class Album {
     @Column
     String description;
 
-    public Album(Long id, String name, Artist artist, Year releaseYear, Genre genre, String description) {
+    public Album(String name, Artist artist, int releaseYear, Genre genre, String description) {
+        this.name = name;
+        this.artist = artist;
+        this.releaseYear = releaseYear;
+        this.genre = genre;
+        this.description = description;
+    }
+
+    public Album(Long id, String name, Artist artist, int releaseYear, Genre genre, String description) {
         this.id = id;
         this.name = name;
         this.artist = artist;
@@ -36,51 +50,6 @@ public class Album {
         this.description = description;
     }
 
-    public Long getId() {
-        return id;
-    }
+    Album(){};
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Artist getArtist() {
-        return artist;
-    }
-
-    public void setArtist(Artist artist) {
-        this.artist = artist;
-    }
-
-    public Year getReleaseYear() {
-        return releaseYear;
-    }
-
-    public void setReleaseYear(Year releaseYear) {
-        this.releaseYear = releaseYear;
-    }
-
-    public Genre getGenre() {
-        return genre;
-    }
-
-    public void setGenre(Genre genre) {
-        this.genre = genre;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 }
