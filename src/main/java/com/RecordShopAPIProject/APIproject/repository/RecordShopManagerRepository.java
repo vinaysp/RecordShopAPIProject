@@ -1,7 +1,7 @@
-package com.RecordShopAPIProject.APIproject.respository;
-import com.RecordShopAPIProject.APIproject.Model.Album;
+package com.RecordShopAPIProject.APIproject.repository;
+import com.RecordShopAPIProject.APIproject.model.Album;
 
-import com.RecordShopAPIProject.APIproject.Model.Genre;
+import com.RecordShopAPIProject.APIproject.model.Genre;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

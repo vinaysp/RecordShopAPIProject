@@ -1,11 +1,7 @@
-package com.RecordShopAPIProject.APIproject.Model;
+package com.RecordShopAPIProject.APIproject.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.Cascade;
-
-import java.time.Year;
-import java.util.List;
 
 @Setter
 @Getter
