@@ -2,38 +2,38 @@ package com.RecordShopAPIProject.APIproject.Model;
 
 
 import jakarta.persistence.*;
-import jakarta.persistence.Entity;
+import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
+@Setter
+@Getter
 @Entity
-public class Artist {
+public class Artist{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(updatable = false, nullable = false)
     Long id;
 
-    @Column(name = "artist_name")
+    @Column
     String artistName;
 
-    public Artist(Long id, String artistName){
-        this.id = id;
+    @OneToMany(mappedBy = "artist", cascade = CascadeType.ALL)
+    List<Album> albums = new ArrayList<>();
+
+    public Artist(String artistName) {
         this.artistName = artistName;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
+    public Artist(Long id, String artistName, List<Album> albums) {
         this.id = id;
-    }
-
-    public String getArtistName() {
-        return artistName;
-    }
-
-    public void setArtistName(String artistName) {
         this.artistName = artistName;
+        this.albums = albums;
     }
+
+    Artist(){};
+
 }
