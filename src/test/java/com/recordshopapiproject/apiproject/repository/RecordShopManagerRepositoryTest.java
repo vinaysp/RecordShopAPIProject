@@ -21,7 +21,8 @@ class RecordShopManagerRepositoryTest {
     public void testFindAllAlbumsReturnsAlbums(){
         //Arrange
         Artist coldplay = new Artist("Coldplay");
-        Album album = new Album("X and Y", coldplay, 2008, Genre.Pop,"great album",5,9.99);
+        List<String> songs = List.of("Fix you","X and Y ", "What if");
+        Album album = new Album("X and Y", coldplay, 2008, Genre.Pop,songs,"cool",999,9.99);
         recordShopManagerRepository.save(album);
 
         //Act
