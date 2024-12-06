@@ -11,8 +11,8 @@ import java.util.List;
 public class Album {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(updatable = false, nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column
     Long id;
 
     @Column
@@ -40,6 +40,18 @@ public class Album {
     @Column
     List<String> songs;
 
+    public Album(long id,String name, Artist artist, int releaseYear, Genre genre, List<String> songs,String description, int stock, double price) {
+        this.id = id;
+        this.name = name;
+        this.artist = artist;
+        this.releaseYear = releaseYear;
+        this.genre = genre;
+        this.description = description;
+        this.stock = stock;
+        this.price = price;
+        this.songs = songs;
+    }
+
     public Album(String name, Artist artist, int releaseYear, Genre genre, List<String> songs,String description, int stock, double price) {
         this.name = name;
         this.artist = artist;
@@ -52,5 +64,6 @@ public class Album {
     }
 
     Album(){};
+
 
 }

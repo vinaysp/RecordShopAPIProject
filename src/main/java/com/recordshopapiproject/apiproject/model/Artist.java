@@ -14,15 +14,20 @@ import java.util.List;
 public class Artist{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(updatable = false, nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column
     Long id;
 
     @Column
     String artistName;
 
     @OneToMany(mappedBy = "artist", cascade = CascadeType.ALL)
-    List<Album> albums = new ArrayList<>();
+    final List<Album> albums = new ArrayList<>();
+
+    public Artist(Long id,String artistName) {
+        this.id = id;
+        this.artistName = artistName;
+    }
 
     public Artist(String artistName) {
         this.artistName = artistName;
