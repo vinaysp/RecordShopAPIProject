@@ -15,6 +15,4 @@ public interface RecordShopManagerService {
     public Album updateAlbum(Long id, Album albumDetails) throws Exception;
     public void deleteAlbum(Long ID);
 
-
-    Iterable<Album> getAlbumsByGenre(Genre genre);
 }

@@ -6,6 +6,7 @@ import com.recordshopapiproject.apiproject.repository.RecordShopManagerRepositor
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,31 +19,41 @@ public class RecordShopManagerServiceImplementation implements RecordShopManager
 
     @Override
     public List<Album> getAllAlbums() {
-        return List.of();
+        List<Album> albums = new ArrayList<>();
+        recordShopManagerRepository.findAll().forEach(albums::add);
+        return albums;
     }
 
     @Override
     public Album insertAlbum(Album album) {
-        return null;
+        return recordShopManagerRepository.save(album);
     }
 
     @Override
     public Optional<Album> getAlbumsByID(Long ID) {
-        return Optional.empty();
+        return recordShopManagerRepository.findById(ID);
     }
 
     @Override
     public Album updateAlbum(Long id, Album albumDetails) throws Exception {
-        return null;
+        Album album = recordShopManagerRepository.findById(id)
+                .orElseThrow(() -> new Exception("Album not found with id: " + id));
+
+        album.setId(albumDetails.getId());
+        album.setName(albumDetails.getName());
+        album.setArtist(albumDetails.getArtist());
+        album.setReleaseYear(albumDetails.getReleaseYear());
+        album.setGenre(albumDetails.getGenre());
+        album.setDescription(albumDetails.getDescription());
+        album.setStock(albumDetails.getStock());
+        album.setPrice(albumDetails.getPrice());
+
+        return recordShopManagerRepository.save(album);
     }
 
     @Override
     public void deleteAlbum(Long ID) {
-
+        recordShopManagerRepository.deleteById(ID);
     }
 
-    @Override
-    public Iterable<Album> getAlbumsByGenre(Genre genre) {
-        return null;
-    }
 }
