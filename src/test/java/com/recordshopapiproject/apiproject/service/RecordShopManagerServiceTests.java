@@ -34,14 +34,14 @@ class RecordShopManagerServiceTests {
     void testGetAllAlbumsReturnsListOfAlbums() {
         // Arrange
         List<Album> albums = new ArrayList<>();
-        Artist radiohead = new Artist("Radiohead");
-        Artist wham = new Artist("Wham!");
+        Artist radiohead = new Artist(1L,"Radiohead");
+        Artist wham = new Artist(2L,"Wham!");
         List<String> songs = List.of("test 1", "test 2", "test 3");
         List<String> songs2 = List.of("test 1", "test 2", "test 3", "test 4");
         List<String> songs3 = List.of("test 1", "test 2");
-        albums.add(new Album("Darkside of the moon",radiohead,2008, Genre.Indie,songs,"cool", 3,8.99));
-        albums.add(new Album("Darkside of the moon 2",radiohead,2009, Genre.Lofi,songs2," so cool", 1,90.99));
-        albums.add(new Album("Wham",wham,1980, Genre.Pop,songs3,"very cool", 1000,999.99));
+        albums.add(new Album(1L,"Darkside of the moon",radiohead,2008, Genre.Indie,songs,"cool", 3,8.99));
+        albums.add(new Album(2L,"Darkside of the moon 2",radiohead,2009, Genre.Lofi,songs2," so cool", 1,90.99));
+        albums.add(new Album(3L,"Wham",wham,1980, Genre.Pop,songs3,"very cool", 1000,999.99));
 
         // Ensure that when .findAll() is invoked, it will always return the albums above
         when(mockrecordShopManagerRepository.findAll()).thenReturn(albums);
@@ -57,9 +57,9 @@ class RecordShopManagerServiceTests {
     @Test
     @DisplayName("RecordShopManager should succesfully be able to add a new album to database")
     void testInsertAlbumIntoDatabase() {
-        Artist me = new Artist("me");
+        Artist me = new Artist(1L,"me");
         List<String> songs2 = List.of("test 1", "test 2", "test 3", "test 4");
-        var expectedAlbum = new Album("Do your best",me,2024,Genre.Rock, songs2,"motivational",1,9999999.99);
+        var expectedAlbum = new Album(1L,"Do your best",me,2024,Genre.Rock, songs2,"motivational",1,9999999.99);
 
         when(mockrecordShopManagerRepository.save(expectedAlbum)).thenReturn(expectedAlbum);
 
@@ -73,9 +73,9 @@ class RecordShopManagerServiceTests {
     @DisplayName("RecordShopManager should succesfully return an album from a given album id")
     void getAlbumsByID() {
         Long id = 1L;
-        Artist me = new Artist("me");
+        Artist me = new Artist(1L,"me");
         List<String> songs2 = List.of("test 1", "test 2", "test 3", "test 4");
-        var expectedAlbum = new Album("Do your best",me,2024,Genre.Rock, songs2,"motivational",1,9999999.99);
+        var expectedAlbum = new Album(1L,"Do your best",me,2024,Genre.Rock, songs2,"motivational",1,9999999.99);
 
         when(mockrecordShopManagerRepository.findById(id)).thenReturn(Optional.of(expectedAlbum));
 
@@ -89,10 +89,10 @@ class RecordShopManagerServiceTests {
     @Test
     void updateAlbum() throws Exception {
         Long albumId = 1L;
-        Artist me = new Artist("me");
+        Artist me = new Artist(1L,"me");
         List<String> songs2 = List.of("test 1", "test 2", "test 3", "test 4");
-        var existingAlbum = new Album("Do your best",me,2022,Genre.Rock, songs2,"motivational",1,9999999.99);
-        var updatedAlbum = new Album("keep going",me,2024,Genre.Pop,songs2,"very motivational",12,10.50);
+        var existingAlbum = new Album(1L,"Do your best",me,2022,Genre.Rock, songs2,"motivational",1,9999999.99);
+        var updatedAlbum = new Album(1L,"keep going",me,2024,Genre.Pop,songs2,"very motivational",12,10.50);
 
         when(mockrecordShopManagerRepository.findById(albumId)).thenReturn(Optional.of(existingAlbum));
 
@@ -115,9 +115,9 @@ class RecordShopManagerServiceTests {
     @Test
     void deleteAlbum() {
         Long albumId = 1L;
-        Artist me = new Artist("me");
+        Artist me = new Artist(1L,"me");
         List<String> songs2 = List.of("test 1", "test 2", "test 3", "test 4");
-        var existingAlbum = new Album("Do your best",me,2022,Genre.Rock, songs2,"motivational",1,9999999.99);
+        var existingAlbum = new Album(1L,"Do your best",me,2022,Genre.Rock, songs2,"motivational",1,9999999.99);
         when(mockrecordShopManagerRepository.save(existingAlbum)).thenReturn(existingAlbum);
 
         doNothing().when(mockrecordShopManagerRepository).deleteById(albumId);
