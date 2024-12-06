@@ -3,6 +3,8 @@ package com.recordshopapiproject.apiproject.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Setter
 @Getter
 @Entity
@@ -35,7 +37,10 @@ public class Album {
     @Column
     double price;
 
-    public Album(String name, Artist artist, int releaseYear, Genre genre, String description, int stock, double price) {
+    @Column
+    List<String> songs;
+
+    public Album(String name, Artist artist, int releaseYear, Genre genre, List<String> songs,String description, int stock, double price) {
         this.name = name;
         this.artist = artist;
         this.releaseYear = releaseYear;
@@ -43,6 +48,7 @@ public class Album {
         this.description = description;
         this.stock = stock;
         this.price = price;
+        this.songs = songs;
     }
 
     Album(){};
