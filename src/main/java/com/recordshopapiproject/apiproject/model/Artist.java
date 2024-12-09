@@ -14,7 +14,7 @@ import java.util.List;
 public class Artist{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    //@GeneratedValue(strategy = GenerationType.AUTO)
     @Column
     Long id;
 
@@ -29,9 +29,9 @@ public class Artist{
         this.artistName = artistName;
     }
 
-    public Artist(String artistName) {
-        this.artistName = artistName;
-    }
+//    public Artist(String artistName) {
+//        this.artistName = artistName;
+//    }
 
     Artist(){};
 
