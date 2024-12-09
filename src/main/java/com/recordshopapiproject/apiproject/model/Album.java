@@ -11,7 +11,7 @@ import java.util.List;
 public class Album {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+//    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column
     Long id;
 
@@ -49,15 +49,15 @@ public class Album {
         this.price = price;
     }
 
-    public Album(String name, Artist artist, int releaseYear, Genre genre,String description, int stock, double price) {
-        this.name = name;
-        this.artist = artist;
-        this.releaseYear = releaseYear;
-        this.genre = genre;
-        this.description = description;
-        this.stock = stock;
-        this.price = price;
-    }
+//    public Album(String name, Artist artist, int releaseYear, Genre genre,String description, int stock, double price) {
+//        this.name = name;
+//        this.artist = artist;
+//        this.releaseYear = releaseYear;
+//        this.genre = genre;
+//        this.description = description;
+//        this.stock = stock;
+//        this.price = price;
+//    }
 
     public Album(){};
 
