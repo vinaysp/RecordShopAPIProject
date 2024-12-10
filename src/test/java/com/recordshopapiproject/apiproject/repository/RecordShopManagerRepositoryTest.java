@@ -22,7 +22,7 @@ class RecordShopManagerRepositoryTest {
         //Arrange
         Artist coldplay = new Artist(1L,"Coldplay");
         List<String> songs = List.of("Fix you","X and Y ", "What if");
-        Album album = new Album(1L,"X and Y", coldplay, 2008, Genre.Pop,"cool",999,9.99);
+        Album album = new Album(1L,"X and Y", 2008, Genre.Pop,"cool",999,9.99);
         recordShopManagerRepository.save(album);
 
         //Act
