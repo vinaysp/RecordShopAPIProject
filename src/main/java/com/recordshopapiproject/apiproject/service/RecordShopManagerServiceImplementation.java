@@ -41,7 +41,6 @@ public class RecordShopManagerServiceImplementation implements RecordShopManager
 
         album.setId(albumDetails.getId());
         album.setName(albumDetails.getName());
-        album.setArtist(albumDetails.getArtist());
         album.setReleaseYear(albumDetails.getReleaseYear());
         album.setGenre(albumDetails.getGenre());
         album.setDescription(albumDetails.getDescription());
