@@ -42,4 +42,10 @@ public class RecordShopManagerController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Album> getAlbumById(@PathVariable Long id) throws Exception {
+        Album album = recordShopManagerService.getAlbumById(id);
+        return ResponseEntity.ok(album);
+    }
+
 }
