@@ -14,5 +14,6 @@ public interface RecordShopManagerService {
     Optional<Album> getAlbumsByID(Long ID);
     public Album updateAlbum(Long id, Album albumDetails) throws Exception;
     public void deleteAlbum(Long ID);
+    Album getAlbumById(Long ID) throws Exception;
 
 }
