@@ -30,4 +30,16 @@ public class RecordShopManagerController {
         return new ResponseEntity<>(newAlbum, httpHeaders, HttpStatus.CREATED);
     }
 
+    @PutMapping("/{albumId}")
+    public ResponseEntity<Album> updateAlbum(@PathVariable Long albumId, @RequestBody Album albumDetails) throws Exception {
+        Album updatedAlbum = recordShopManagerService.updateAlbum(albumId, albumDetails);
+        return ResponseEntity.ok(updatedAlbum);
+    }
+
+    @DeleteMapping("/{ID}")
+    public ResponseEntity<Album> deleteAlbumByID(@PathVariable("ID") Long ID){
+        recordShopManagerService.deleteAlbum(ID);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
 }
