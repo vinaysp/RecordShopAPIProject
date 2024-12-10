@@ -52,10 +52,10 @@ class RecordShopManagerControllerTests {
         List<Album> albums = new ArrayList<>();
         Artist me = new Artist(1L,"me");
         Artist m3 = new Artist(2L,"m3");
-        albums.add(new Album(1L,"Do your best", me, 2022, Genre.Rock, "motivational", 1, 9999999.99));
-        albums.add(new Album(2L,"keep going", me, 2024, Genre.Pop,"very motivational", 12, 10.50));
-        albums.add(new Album(3L,"Try it, fix it", me, 2021, Genre.Lofi, "motivationalllll", 1, 999.99));
-        albums.add(new Album(4L,"Do your best", m3, 2022, Genre.Rock,"motivational", 1, 9999999.99));
+        albums.add(new Album(1L,"Do your best", 2022, Genre.Rock, "motivational", 1, 9999999.99));
+        albums.add(new Album(2L,"keep going", 2024, Genre.Pop,"very motivational", 12, 10.50));
+        albums.add(new Album(3L,"Try it, fix it",2021, Genre.Lofi, "motivationalllll", 1, 999.99));
+        albums.add(new Album(4L,"Do your best",2022, Genre.Rock,"motivational", 1, 9999999.99));
 
         when(mockRecordShopManagerImpl.getAllAlbums()).thenReturn(albums);
 
@@ -77,7 +77,7 @@ class RecordShopManagerControllerTests {
     public void testPostMappingAddAlbum() throws Exception{
         Artist me = new Artist(1L,"me");
         List<String> songs2 = List.of("test 1", "test 2", "test 3", "test 4");
-        Album album = new Album(3L,"you got this",me,2090,Genre.Lofi,"slowly getting there", 1, 9.99);
+        Album album = new Album(3L,"you got this",2090,Genre.Lofi,"slowly getting there", 1, 9.99);
 
         when(mockRecordShopManagerImpl.insertAlbum(any(Album.class))).thenReturn(album);
 
