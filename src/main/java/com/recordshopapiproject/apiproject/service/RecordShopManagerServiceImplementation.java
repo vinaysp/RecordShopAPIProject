@@ -55,4 +55,10 @@ public class RecordShopManagerServiceImplementation implements RecordShopManager
         recordShopManagerRepository.deleteById(ID);
     }
 
+    @Override
+    public Album getAlbumById(Long ID) throws Exception {
+        return recordShopManagerRepository.findById(ID)
+                .orElseThrow(() -> new Exception("Album not found with id: " + ID));
+    }
+
 }
