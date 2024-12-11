@@ -23,7 +23,7 @@ public class Album {
 //    @Column(nullable = false)
 //    Artist artist;
 
-    @ManyToMany(mappedBy = "albums")
+    @ManyToMany(mappedBy = "albums", cascade = CascadeType.ALL)
     private Set<Artist> artists = new HashSet<>();
 
     @Column
