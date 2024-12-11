@@ -24,7 +24,7 @@ public class Artist{
 
 //    @OneToMany(mappedBy = "artist", cascade = CascadeType.ALL)
 //    final List<Album> albums = new ArrayList<>();
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
         name = "artist_album",
         joinColumns = @JoinColumn(name = "artist_id"),
