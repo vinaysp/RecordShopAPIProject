@@ -1,7 +1,9 @@
 package com.recordshopapiproject.apiproject.service;
 
 import com.recordshopapiproject.apiproject.model.Album;
+import com.recordshopapiproject.apiproject.model.Artist;
 import com.recordshopapiproject.apiproject.model.Genre;
+import com.recordshopapiproject.apiproject.repository.ArtistRepository;
 import com.recordshopapiproject.apiproject.repository.RecordShopManagerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,9 @@ public class RecordShopManagerServiceImplementation implements RecordShopManager
     @Autowired
     RecordShopManagerRepository recordShopManagerRepository;
 
+    @Autowired
+    ArtistRepository artistRepository;
+
     @Override
     public List<Album> getAllAlbums() {
         List<Album> albums = new ArrayList<>();
@@ -26,6 +31,10 @@ public class RecordShopManagerServiceImplementation implements RecordShopManager
 
     @Override
     public Album insertAlbum(Album album) {
+        if (album.getArtist() != null) {
+            Artist artist = artistRepository.save(album.getArtist());
+            album.setArtist(artist);
+        }
         return recordShopManagerRepository.save(album);
     }
 
@@ -39,13 +48,24 @@ public class RecordShopManagerServiceImplementation implements RecordShopManager
         Album album = recordShopManagerRepository.findById(id)
                 .orElseThrow(() -> new Exception("Album not found with id: " + id));
 
-        album.setId(albumDetails.getId());
+//        album.setId(albumDetails.getId());
         album.setName(albumDetails.getName());
         album.setReleaseYear(albumDetails.getReleaseYear());
         album.setGenre(albumDetails.getGenre());
         album.setDescription(albumDetails.getDescription());
         album.setStock(albumDetails.getStock());
         album.setPrice(albumDetails.getPrice());
+
+        if (albumDetails.getArtist() != null) {
+            Artist existingArtist = album.getArtist();
+            if (existingArtist != null) {
+                existingArtist.setArtistName(albumDetails.getArtist().getArtistName());
+            }
+
+            album.setArtist(existingArtist);
+        } else {
+            album.setArtist(albumDetails.getArtist());
+        }
 
         return recordShopManagerRepository.save(album);
     }
