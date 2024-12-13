@@ -3,10 +3,6 @@ package com.recordshopapiproject.apiproject.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 @Setter
 @Getter
 @Entity
@@ -14,17 +10,15 @@ public class Album {
 
     @Id
 //    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "album_id")
+    @Column
     Long id;
 
     @Column (nullable = false)
     String name;
 
-//    @Column(nullable = false)
-//    Artist artist;
-
-    @ManyToMany(mappedBy = "albums", cascade = CascadeType.ALL)
-    private Set<Artist> artists = new HashSet<>();
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "artist_id")
+    private Artist artist;
 
     @Column
     int releaseYear;
@@ -77,15 +71,15 @@ public class Album {
 
     public Album(){};
 
-    // Helper method to manage the relationship
-    public void addArtist(Artist artist) {
-        this.artists.add(artist);
-        artist.getAlbums().add(this);
-    }
-
-    public void removeArtist(Artist artist) {
-        this.artists.remove(artist);
-        artist.getAlbums().remove(this);
-    }
+//    // Helper method to manage the relationship
+//    public void addArtist(Artist artist) {
+//        this.artist.add(artist);
+//        artist.getAlbums().add(this);
+//    }
+//
+//    public void removeArtist(Artist artist) {
+//        this.artists.remove(artist);
+//        artist.getAlbums().remove(this);
+//    }
 
 }
