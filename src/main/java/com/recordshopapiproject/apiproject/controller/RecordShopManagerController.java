@@ -24,6 +24,15 @@ public class RecordShopManagerController {
 
     @PostMapping
     public ResponseEntity<Album> addAlbum(@RequestBody Album album){
+
+        if (album.getName() == null || album.getName().trim().isEmpty()){
+        return ResponseEntity.badRequest().build();
+        }
+
+        if (album.getPrice()<0){
+            return ResponseEntity.badRequest().build();
+        }
+
         Album newAlbum = recordShopManagerService.insertAlbum(album);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("album","/api/v1/recordShop/"+newAlbum.getId().toString());
