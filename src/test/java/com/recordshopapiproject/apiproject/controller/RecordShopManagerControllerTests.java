@@ -24,6 +24,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @AutoConfigureMockMvc
 @SpringBootTest
@@ -93,6 +96,26 @@ class RecordShopManagerControllerTests {
 
         verify(mockRecordShopManagerImpl, times(1)).insertAlbum(any(Album.class));
 
+    }
+
+    @Test
+    public void addAlbum_WithValidInput_ShouldReturnCreated() throws Exception {
+        Album album = new Album(1L, "Test Album", 2024, Genre.Rock, "Description", 10, 29.99);
+        when(mockRecordShopManagerImpl.insertAlbum(any(Album.class))).thenReturn(album);
+
+        mockMvcController.perform(post("/api/v1/recordShop")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(album)))
+                .andExpect(status().isCreated())
+                .andExpect(header().exists("album"));
+    }
+
+    @Test
+    public void addAlbum_WithNullName_ShouldReturnBadRequest() throws Exception {
+        mockMvcController.perform(post("/api/v1/recordShop")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"id\":1,\"name\":null,\"releaseYear\":2024}"))
+                .andExpect(status().isBadRequest());
     }
 
 }
