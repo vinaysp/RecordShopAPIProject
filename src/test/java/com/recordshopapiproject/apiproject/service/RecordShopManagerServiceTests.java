@@ -3,6 +3,7 @@ package com.recordshopapiproject.apiproject.service;
 import com.recordshopapiproject.apiproject.model.Album;
 import com.recordshopapiproject.apiproject.model.Artist;
 import com.recordshopapiproject.apiproject.model.Genre;
+import com.recordshopapiproject.apiproject.repository.ArtistRepository;
 import com.recordshopapiproject.apiproject.repository.RecordShopManagerRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -23,6 +24,9 @@ import static org.mockito.Mockito.*;
 class RecordShopManagerServiceTests {
 
     @Mock
+    private ArtistRepository artistRepository;
+
+    @Mock
     private RecordShopManagerRepository mockrecordShopManagerRepository;
 
     @InjectMocks
@@ -34,11 +38,11 @@ class RecordShopManagerServiceTests {
     void testGetAllAlbumsReturnsListOfAlbums() {
         // Arrange
         List<Album> albums = new ArrayList<>();
-        Artist radiohead = new Artist(1L,"Radiohead");
-        Artist wham = new Artist(2L,"Wham!");
-        albums.add(new Album(1L,"Darkside of the moon",2008, Genre.Indie,"cool", 3,8.99));
-        albums.add(new Album(2L,"Darkside of the moon 2",2009, Genre.Lofi," so cool", 1,90.99));
-        albums.add(new Album(3L,"Wham",1980, Genre.Pop,"very cool", 1000,999.99));
+        Artist radiohead = new Artist("Radiohead");
+        Artist wham = new Artist("Wham!");
+        albums.add(new Album(radiohead,"Darkside of the moon",2008, Genre.Indie,"cool", 3,8.99));
+        albums.add(new Album(wham,"Darkside of the moon 2",2009, Genre.Lofi," so cool", 1,90.99));
+        albums.add(new Album(wham,"Wham",1980, Genre.Pop,"very cool", 1000,999.99));
 
         // Ensure that when .findAll() is invoked, it will always return the albums above
         when(mockrecordShopManagerRepository.findAll()).thenReturn(albums);
@@ -54,9 +58,10 @@ class RecordShopManagerServiceTests {
     @Test
     @DisplayName("RecordShopManager should succesfully be able to add a new album to database")
     void testInsertAlbumIntoDatabase() {
-        Artist me = new Artist(1L,"me");
-        List<String> songs2 = List.of("test 1", "test 2", "test 3", "test 4");
-        var expectedAlbum = new Album(1L,"Do your best",2024,Genre.Rock,"motivational",1,9999999.99);
+        Artist me = new Artist("me");
+        Album expectedAlbum = new Album(me,"Do your best",2024,Genre.Rock,"motivational",1,9999999.99);
+
+        when(artistRepository.save(any(Artist.class))).thenReturn(me);
 
         when(mockrecordShopManagerRepository.save(expectedAlbum)).thenReturn(expectedAlbum);
 
@@ -70,8 +75,8 @@ class RecordShopManagerServiceTests {
     @DisplayName("RecordShopManager should succesfully return an album from a given album id")
     void getAlbumsByID() {
         Long id = 1L;
-        Artist me = new Artist(1L,"me");
-        var expectedAlbum = new Album(1L,"Do your best",2024,Genre.Rock,"motivational",1,9999999.99);
+        Artist me = new Artist("me");
+        var expectedAlbum = new Album(me,"Do your best",2024,Genre.Rock,"motivational",1,9999999.99);
 
         when(mockrecordShopManagerRepository.findById(id)).thenReturn(Optional.of(expectedAlbum));
 
@@ -85,9 +90,9 @@ class RecordShopManagerServiceTests {
     @Test
     void updateAlbum() throws Exception {
         Long albumId = 1L;
-        Artist me = new Artist(1L,"me");
-        var existingAlbum = new Album(1L,"Do your best",2022,Genre.Rock, "motivational",1,9999999.99);
-        var updatedAlbum = new Album(1L,"keep going",2024,Genre.Pop,"very motivational",12,10.50);
+        Artist me = new Artist("me");
+        var existingAlbum = new Album(me,"Do your best",2022,Genre.Rock, "motivational",1,9999999.99);
+        var updatedAlbum = new Album(me,"keep going",2024,Genre.Pop,"very motivational",12,10.50);
 
         when(mockrecordShopManagerRepository.findById(albumId)).thenReturn(Optional.of(existingAlbum));
 
@@ -110,8 +115,8 @@ class RecordShopManagerServiceTests {
     @Test
     void deleteAlbum() {
         Long albumId = 1L;
-        Artist me = new Artist(1L,"me");
-        var existingAlbum = new Album(1L,"Do your best",2022,Genre.Rock,"motivational",1,9999999.99);
+        Artist me = new Artist("me");
+        var existingAlbum = new Album(me,"Do your best",2022,Genre.Rock,"motivational",1,9999999.99);
         when(mockrecordShopManagerRepository.save(existingAlbum)).thenReturn(existingAlbum);
 
         doNothing().when(mockrecordShopManagerRepository).deleteById(albumId);
