@@ -17,43 +17,21 @@ import java.util.Set;
 public class Artist{
 
     @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column
     Long id;
 
     @Column(nullable = false)
     String artistName;
 
-//    @OneToMany(mappedBy = "artist", cascade = CascadeType.ALL)
-//    final List<Album> albums = new ArrayList<>();
-//    @ManyToMany(cascade = CascadeType.ALL)
-//    @JoinTable(
-//        name = "artist_album",
-//        joinColumns = @JoinColumn(name = "artist_id"),
-//        inverseJoinColumns = @JoinColumn(name = "album_id")
-//    )
     @JsonBackReference
     @OneToMany(mappedBy = "artist")
     private List<Album> albums = new ArrayList<>();
 
-    public Artist(Long id,String artistName) {
-        this.id = id;
+    public Artist(String artistName) {
         this.artistName = artistName;
     }
 
-//    public Artist(String artistName) {
-//        this.artistName = artistName;
-//    }
-
     Artist(){};
 
-//    public void addAlbum(Album album) {
-//        this.albums.add(album);
-//        album.getArtist().add(this);
-//    }
-//
-//    public void removeAlbum(Album album) {
-//        this.albums.remove(album);
-//        album.getArtist().remove(this);
-//    }
 }
