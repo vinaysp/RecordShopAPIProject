@@ -25,8 +25,7 @@ import java.util.List;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @AutoConfigureMockMvc
 @SpringBootTest
@@ -41,6 +40,7 @@ class RecordShopManagerControllerTests {
     @Autowired
     private MockMvc mockMvcController;
 
+    @Autowired
     private ObjectMapper mapper;
 
     @BeforeEach
@@ -53,34 +53,30 @@ class RecordShopManagerControllerTests {
     public void testGetAllAlbumsReturnsAlbums() throws Exception {
 
         List<Album> albums = new ArrayList<>();
-        Artist me = new Artist(1L,"me");
-        Artist m3 = new Artist(2L,"m3");
-        albums.add(new Album(1L,"Do your best", 2022, Genre.Rock, "motivational", 1, 9999999.99));
-        albums.add(new Album(2L,"keep going", 2024, Genre.Pop,"very motivational", 12, 10.50));
-        albums.add(new Album(3L,"Try it, fix it",2021, Genre.Lofi, "motivationalllll", 1, 999.99));
-        albums.add(new Album(4L,"Do your best",2022, Genre.Rock,"motivational", 1, 9999999.99));
+        Artist me = new Artist("me");
+        Artist m3 = new Artist("m3");
+        albums.add(new Album(me,"Do your best", 2022, Genre.Rock, "motivational", 1, 9999999.99));
+        albums.add(new Album(me,"keep going", 2024, Genre.Pop,"very motivational", 12, 10.50));
+        albums.add(new Album(m3,"Try it, fix it",2021, Genre.Lofi, "motivationalllll", 1, 999.99));
+        albums.add(new Album(m3,"Do your best",2022, Genre.Rock,"motivational", 1, 9999999.99));
 
         when(mockRecordShopManagerImpl.getAllAlbums()).thenReturn(albums);
 
         this.mockMvcController.perform(
                         MockMvcRequestBuilders.get("/api/v1/recordShop"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].id").value(1L))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].name").value("Do your best"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[1].id").value(2L))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[1].name").value("keep going"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[2].id").value(3L))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[2].name").value("Try it, fix it"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[3].id").value(4L))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[3].name").value("Do your best"));
+                .andExpect(jsonPath("$[0].name").value("Do your best"))
+                .andExpect(jsonPath("$[1].name").value("keep going"))
+                .andExpect(jsonPath("$[2].name").value("Try it, fix it"))
+                .andExpect(jsonPath("$[3].name").value("Do your best"));
 
     }
 
     @Test
     public void testPostMappingAddAlbum() throws Exception{
-        Artist me = new Artist(1L,"me");
+        Artist me = new Artist("me");
         List<String> songs2 = List.of("test 1", "test 2", "test 3", "test 4");
-        Album album = new Album(3L,"you got this",2090,Genre.Lofi,"slowly getting there", 1, 9.99);
+        Album album = new Album(me,"you got this",2090,Genre.Lofi,"slowly getting there", 1, 9.99);
 
         when(mockRecordShopManagerImpl.insertAlbum(any(Album.class))).thenReturn(album);
 
@@ -89,8 +85,7 @@ class RecordShopManagerControllerTests {
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(mapper.writeValueAsString(album)))
                                 .andExpect(MockMvcResultMatchers.status().isCreated())
-                                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(3L))
-                                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("you got this"))
+                                .andExpect(jsonPath("$.name").value("you got this"))
                                         .andDo(MockMvcResultHandlers.print());
 
 
@@ -100,14 +95,16 @@ class RecordShopManagerControllerTests {
 
     @Test
     public void addAlbum_WithValidInput_ShouldReturnCreated() throws Exception {
-        Album album = new Album(1L, "Test Album", 2024, Genre.Rock, "Description", 10, 29.99);
+        Artist me = new Artist("me");
+        Album album = new Album(me, "Test Album", 2024, Genre.Rock, "Description", 10, 29.99);
         when(mockRecordShopManagerImpl.insertAlbum(any(Album.class))).thenReturn(album);
 
         mockMvcController.perform(post("/api/v1/recordShop")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(album)))
                 .andExpect(status().isCreated())
-                .andExpect(header().exists("album"));
+                .andExpect(jsonPath("$.name").value("Test Album"))
+                .andExpect(jsonPath("$.price").value(29.99));
     }
 
     @Test
