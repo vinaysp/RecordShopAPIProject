@@ -35,7 +35,8 @@ public class RecordShopManagerController {
 
         Album newAlbum = recordShopManagerService.insertAlbum(album);
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add("album","/api/v1/recordShop/"+newAlbum.getId().toString());
+        if (newAlbum.getId() != null) {
+            httpHeaders.add("album", String.format("/api/v1/recordShop/%d", newAlbum.getId()));}
         return new ResponseEntity<>(newAlbum, httpHeaders, HttpStatus.CREATED);
     }
 
