@@ -48,7 +48,6 @@ public class RecordShopManagerServiceImplementation implements RecordShopManager
         Album album = recordShopManagerRepository.findById(id)
                 .orElseThrow(() -> new Exception("Album not found with id: " + id));
 
-//        album.setId(albumDetails.getId());
         album.setName(albumDetails.getName());
         album.setReleaseYear(albumDetails.getReleaseYear());
         album.setGenre(albumDetails.getGenre());
