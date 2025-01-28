@@ -1,8 +1,9 @@
 package com.recordshopapiproject.apiproject.service;
 
+import com.recordshopapiproject.apiproject.dto.AlbumArtistGenreResponseDTO;
+import com.recordshopapiproject.apiproject.dto.mapper.Mapper;
 import com.recordshopapiproject.apiproject.model.Album;
 import com.recordshopapiproject.apiproject.model.Artist;
-import com.recordshopapiproject.apiproject.model.Genre;
 import com.recordshopapiproject.apiproject.repository.ArtistRepository;
 import com.recordshopapiproject.apiproject.repository.RecordShopManagerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,18 @@ public class RecordShopManagerServiceImplementation implements RecordShopManager
         recordShopManagerRepository.findAll().forEach(albums::add);
         return albums;
     }
+
+    @Override
+    public List<AlbumArtistGenreResponseDTO> getResponseDTO(){
+        List<AlbumArtistGenreResponseDTO> resultList = new ArrayList<>();
+        Mapper mapper = new Mapper();
+        recordShopManagerRepository.findAll()
+                .forEach(entity -> {
+                    resultList.add(mapper.convertEntityToDto(entity));
+                });
+        return resultList;
+    }
+
 
     @Override
     public Album insertAlbum(Album album) {
