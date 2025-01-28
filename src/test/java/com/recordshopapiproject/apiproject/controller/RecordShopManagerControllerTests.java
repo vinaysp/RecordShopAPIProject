@@ -1,6 +1,7 @@
 package com.recordshopapiproject.apiproject.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.recordshopapiproject.apiproject.dto.AlbumArtistGenreResponseDTO;
 import com.recordshopapiproject.apiproject.model.Album;
 import com.recordshopapiproject.apiproject.model.Artist;
 import com.recordshopapiproject.apiproject.model.Genre;
@@ -25,6 +26,7 @@ import java.util.List;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @AutoConfigureMockMvc
@@ -70,6 +72,33 @@ class RecordShopManagerControllerTests {
                 .andExpect(jsonPath("$[2].name").value("Try it, fix it"))
                 .andExpect(jsonPath("$[3].name").value("Do your best"));
 
+    }
+
+    @Test
+    public void testGetResponseDTOReturnsAlbumArtistGenreResponseDTO() throws Exception {
+        List<AlbumArtistGenreResponseDTO> albumArtistGenreResponseDTOS= new ArrayList<>();
+        Artist me = new Artist("me");
+        Artist m3 = new Artist("m3");
+        Album one = new Album(me,"Do your best", 2022, Genre.Rock, "motivational", 1, 9999999.99);
+        Album two = new Album(me,"keep going", 2024, Genre.Pop,"very motivational", 12, 10.50);
+        Album three = new Album(m3,"Try it, fix it",2021, Genre.Lofi, "motivationalllll", 1, 999.99);
+        Album four = new Album(m3,"Do your best",2022, Genre.Rock,"motivational", 1, 9999999.99);
+
+        albumArtistGenreResponseDTOS.add(new AlbumArtistGenreResponseDTO(one));
+        albumArtistGenreResponseDTOS.add(new AlbumArtistGenreResponseDTO(two));
+        albumArtistGenreResponseDTOS.add(new AlbumArtistGenreResponseDTO(three));
+        albumArtistGenreResponseDTOS.add(new AlbumArtistGenreResponseDTO(four));
+
+        when(mockRecordShopManagerImpl.getResponseDTO()).thenReturn(albumArtistGenreResponseDTOS);
+
+        this.mockMvcController.perform(
+                        MockMvcRequestBuilders.get("/api/v1/recordShop/dtoGetAlbums"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(jsonPath("[0].albumName").value("Do your best"))
+                .andExpect(jsonPath("[1].albumName").value("keep going"))
+                .andExpect(jsonPath("[2].albumName").value("Try it, fix it"))
+                .andExpect(jsonPath("[3].albumName").value("Do your best"))
+                .andDo(print());
     }
 
     @Test
