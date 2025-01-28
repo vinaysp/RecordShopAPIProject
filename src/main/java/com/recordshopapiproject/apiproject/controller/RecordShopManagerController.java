@@ -1,5 +1,6 @@
 package com.recordshopapiproject.apiproject.controller;
 
+import com.recordshopapiproject.apiproject.dto.AlbumArtistGenreResponseDTO;
 import com.recordshopapiproject.apiproject.model.Album;
 import com.recordshopapiproject.apiproject.service.RecordShopManagerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +57,13 @@ public class RecordShopManagerController {
     public ResponseEntity<Album> getAlbumById(@PathVariable Long id) throws Exception {
         Album album = recordShopManagerService.getAlbumById(id);
         return ResponseEntity.ok(album);
+    }
+
+    @GetMapping("/dtoGetAlbums")
+    public ResponseEntity<Iterable<AlbumArtistGenreResponseDTO>> getResponseDTO(){
+        Iterable<AlbumArtistGenreResponseDTO> albumArtistGenreResponseDTOS;
+        albumArtistGenreResponseDTOS = recordShopManagerService.getResponseDTO();
+        return ResponseEntity.ok(albumArtistGenreResponseDTOS);
     }
 
 }
