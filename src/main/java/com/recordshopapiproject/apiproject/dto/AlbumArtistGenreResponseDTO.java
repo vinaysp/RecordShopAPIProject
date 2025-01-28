@@ -10,6 +10,7 @@ public class AlbumArtistGenreResponseDTO {
     private String artistName;
     private String albumName;
     private String albumGenre;
+    private String albumDescription;
     private int albumReleaseYear;
     private int stock;
     private double price;
@@ -20,6 +21,7 @@ public class AlbumArtistGenreResponseDTO {
         this.artistName = album.getArtist() != null ? album.getArtist().getArtistName() : null;
         this.albumName = album.getName();
         this.albumGenre = album.getGenre().name();
+        this.albumDescription = album.getDescription();
         this.albumReleaseYear = album.getReleaseYear();
         this.stock = album.getStock();
         this.price = album.getPrice();
