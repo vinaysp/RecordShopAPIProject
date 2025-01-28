@@ -4,7 +4,9 @@ import com.recordshopapiproject.apiproject.dto.AlbumArtistGenreResponseDTO;
 import com.recordshopapiproject.apiproject.model.Album;
 import com.recordshopapiproject.apiproject.model.Artist;
 import com.recordshopapiproject.apiproject.model.Genre;
+import org.springframework.stereotype.Component;
 
+@Component
 public class Mapper {
 
     public AlbumArtistGenreResponseDTO convertEntityToDto(Album album){
