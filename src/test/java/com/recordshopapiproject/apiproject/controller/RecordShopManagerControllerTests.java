@@ -123,6 +123,27 @@ class RecordShopManagerControllerTests {
     }
 
     @Test
+    public void testPostMappingAddAlbumWhenSubmittingDTO() throws Exception{
+        Artist me = new Artist("me");
+        Album album = new Album(me,"you got this",2090,Genre.Lofi,"slowly getting there", 1, 9.99);
+        AlbumArtistGenreResponseDTO albumArtistGenreResponseDTO = new AlbumArtistGenreResponseDTO(album);
+
+        when(mockRecordShopManagerImpl.insertAlbumFromDTO(any(AlbumArtistGenreResponseDTO.class))).thenReturn(album);
+
+        this.mockMvcController.perform(
+                        MockMvcRequestBuilders.post("/api/v1/recordShop/dtoPostAlbums")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(mapper.writeValueAsString(albumArtistGenreResponseDTO)))
+                .andExpect(MockMvcResultMatchers.status().isCreated())
+                .andExpect(jsonPath("$.albumName").value("you got this"))
+                .andDo(MockMvcResultHandlers.print());
+
+
+        verify(mockRecordShopManagerImpl, times(1)).insertAlbumFromDTO(any(AlbumArtistGenreResponseDTO.class));
+
+    }
+
+    @Test
     public void addAlbum_WithValidInput_ShouldReturnCreated() throws Exception {
         Artist me = new Artist("me");
         Album album = new Album(me, "Test Album", 2024, Genre.Rock, "Description", 10, 29.99);
