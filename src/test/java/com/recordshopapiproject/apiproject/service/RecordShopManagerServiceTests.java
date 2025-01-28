@@ -73,14 +73,14 @@ class RecordShopManagerServiceTests {
 
     @Test
     @DisplayName("RecordShopManager should succesfully return an album from a given album id")
-    void getAlbumsByID() {
-        Long id = 1L;
+    void getAlbumsByID() throws Exception {
+        Long ID = 1L;
         Artist me = new Artist("me");
         var expectedAlbum = new Album(me,"Do your best",2024,Genre.Rock,"motivational",1,9999999.99);
 
-        when(mockrecordShopManagerRepository.findById(id)).thenReturn(Optional.of(expectedAlbum));
+        when(mockrecordShopManagerRepository.findById(ID)).thenReturn(Optional.of(expectedAlbum));
 
-        Optional<Album> result = recordShopManagerServiceImplementation.getAlbumsByID(id);
+        Optional<Album> result = Optional.ofNullable(recordShopManagerServiceImplementation.getAlbumById(ID));
 
         assertTrue(result.isPresent());
         assertEquals(expectedAlbum.getId(),result.get().getId());
