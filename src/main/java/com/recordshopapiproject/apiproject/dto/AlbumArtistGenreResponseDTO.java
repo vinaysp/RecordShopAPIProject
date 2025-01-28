@@ -27,5 +27,7 @@ public class AlbumArtistGenreResponseDTO {
         this.price = album.getPrice();
     }
 
+    public AlbumArtistGenreResponseDTO() {}
+
 
 }
