@@ -52,8 +52,26 @@ public class RecordShopManagerServiceImplementation implements RecordShopManager
     }
 
     @Override
-    public Optional<Album> getAlbumsByID(Long ID) {
-        return recordShopManagerRepository.findById(ID);
+    public Album insertAlbumFromDTO(AlbumArtistGenreResponseDTO albumArtistGenreResponseDTO){
+        Mapper mapper = new Mapper();
+        Album album = new Album();
+        if(albumArtistGenreResponseDTO.getArtistName() != null){
+            album = mapper.convertDtoToAlbum(albumArtistGenreResponseDTO);
+            Artist artist = artistRepository.save(album.getArtist());
+            album.setArtist(artist);
+        }
+        return recordShopManagerRepository.save(album);
+    }
+
+//    @Override
+//    public Optional<Album> getAlbumsByID(Long ID) {
+//        return recordShopManagerRepository.findById(ID);
+//    }
+
+    @Override
+    public Album getAlbumById(Long ID) throws Exception {
+        return recordShopManagerRepository.findById(ID)
+                .orElseThrow(() -> new Exception("Album not found with id: " + ID));
     }
 
     @Override
@@ -87,10 +105,6 @@ public class RecordShopManagerServiceImplementation implements RecordShopManager
         recordShopManagerRepository.deleteById(ID);
     }
 
-    @Override
-    public Album getAlbumById(Long ID) throws Exception {
-        return recordShopManagerRepository.findById(ID)
-                .orElseThrow(() -> new Exception("Album not found with id: " + ID));
-    }
+
 
 }
