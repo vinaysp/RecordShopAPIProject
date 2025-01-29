@@ -7,7 +7,7 @@ My back-end application has been designed to support a record shop. The API allo
 # Features
 Through the use of this application and its API endpoints users are able to;
 - List all albums in the shop's inventory.
-- Retreive details of a specific album by it's id from the inventory.
+- Retrieve details of a specific album by it's id from the inventory.
 - Add new albums to the inventory.
 - Update information about an existing album to the inventory.
 - Delete albums from the inventory using an album's id.
@@ -22,12 +22,16 @@ Through the use of this application and its API endpoints users are able to;
 - PostgreSQL for data persistance in production
 
 # Prequisites for running application locally
+- Intellij IDE installed
 - Java 21 installed
 - Maven installed
-- PostgreSQL installed with database called "record_shop" created. 
+- PostgreSQL installed with local database called "record_shop" created and running. 
 
 # Application setup
-
+1) Clone this repository using : "git clone {replace this with repository url}"
+2) Open Project within Intellij IDE
+3) Run application
+4) Access API through the following link: http://localhost:8080
 
 # API endpoints
 
