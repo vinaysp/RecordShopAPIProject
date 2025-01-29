@@ -28,7 +28,7 @@ Through the use of this application and its API endpoints users are able to;
 - PostgreSQL installed with local database called "record_shop" created and running. 
 
 # Application setup
-1) Clone this repository using : "git clone {replace this with repository url}"
+1) Clone this repository using : "git clone {replace with repository url}" in command line
 2) Open Project within Intellij IDE
 3) Run application
 4) Access API through the following link: http://localhost:8080
