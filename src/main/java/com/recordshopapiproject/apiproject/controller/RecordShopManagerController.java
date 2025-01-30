@@ -73,7 +73,7 @@ public class RecordShopManagerController {
     }
 
     @PostMapping("/dtoPostAlbums")
-    public ResponseEntity<AlbumArtistGenreResponseDTO> addAlbum(@RequestBody AlbumArtistGenreResponseDTO albumArtistGenreResponseDTO) {
+    public ResponseEntity<AlbumArtistGenreResponseDTO> addAlbumFromDTO(@RequestBody AlbumArtistGenreResponseDTO albumArtistGenreResponseDTO) {
 
         if (albumArtistGenreResponseDTO.getAlbumName() == null || albumArtistGenreResponseDTO.getAlbumName().trim().isEmpty()) {
             return ResponseEntity.badRequest().build();
@@ -86,15 +86,22 @@ public class RecordShopManagerController {
         Album newAlbum = recordShopManagerService.insertAlbumFromDTO(albumArtistGenreResponseDTO);
         HttpHeaders httpHeaders = new HttpHeaders();
         if (newAlbum.getId() != null) {
-            //httpHeaders.add("album", String.format("/api/v1/recordShop/%d", newAlbum.getId()));
-            URI location = ServletUriComponentsBuilder
-                    .fromCurrentRequest()
-                    .path("/{id}")
-                    .buildAndExpand(newAlbum.getId())
-                    .toUri();
-            httpHeaders.setLocation(location);
+            httpHeaders.add("album", String.format("/api/v1/recordShop/%d", newAlbum.getId()));
         }
         AlbumArtistGenreResponseDTO responseReturned = mapper.convertEntityToDto(newAlbum);
         return new ResponseEntity<>(responseReturned, httpHeaders, HttpStatus.CREATED);
     }
+
+    @GetMapping("/dto/{id}")
+    public ResponseEntity<AlbumArtistGenreResponseDTO> getAlbumByIdReturnDTO(@PathVariable Long id) throws Exception {
+        AlbumArtistGenreResponseDTO album = recordShopManagerService.getAlbumByIdReturnDTO(id);
+        return ResponseEntity.ok(album);
+    }
+
+    @PutMapping("/dto/{albumId}")
+    public ResponseEntity<AlbumArtistGenreResponseDTO> updateAlbumUsingDTO(@PathVariable Long albumId, @RequestBody AlbumArtistGenreResponseDTO albumDetails) throws Exception {
+        AlbumArtistGenreResponseDTO updatedAlbum = recordShopManagerService.updateAlbumUsingDTO(albumId, albumDetails);
+        return ResponseEntity.ok(updatedAlbum);
+    }
+
 }
