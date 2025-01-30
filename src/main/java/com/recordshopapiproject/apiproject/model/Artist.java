@@ -32,6 +32,15 @@ public class Artist{
         this.artistName = artistName;
     }
 
-    Artist(){};
+    public Artist(){};
 
+    public void addAlbum(Album album) {
+        albums.add(album);
+        album.setArtist(this);
+    }
+
+    public void removeAlbum(Album album) {
+        albums.remove(album);
+        album.setArtist(null);
+    }
 }
