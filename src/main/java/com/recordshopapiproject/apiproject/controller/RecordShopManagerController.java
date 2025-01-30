@@ -83,13 +83,13 @@ public class RecordShopManagerController {
             return ResponseEntity.badRequest().build();
         }
 
-        Album newAlbum = recordShopManagerService.insertAlbumFromDTO(albumArtistGenreResponseDTO);
+        AlbumArtistGenreResponseDTO newAlbum = recordShopManagerService.insertAlbumFromDTO(albumArtistGenreResponseDTO);
         HttpHeaders httpHeaders = new HttpHeaders();
-        if (newAlbum.getId() != null) {
-            httpHeaders.add("album", String.format("/api/v1/recordShop/%d", newAlbum.getId()));
+        if (newAlbum.getAlbumId() != null) {
+            httpHeaders.add("album", String.format("/api/v1/recordShop/%d", newAlbum.getAlbumId()));
         }
-        AlbumArtistGenreResponseDTO responseReturned = mapper.convertEntityToDto(newAlbum);
-        return new ResponseEntity<>(responseReturned, httpHeaders, HttpStatus.CREATED);
+//        AlbumArtistGenreResponseDTO responseReturned = mapper.convertEntityToDto(newAlbum);
+        return new ResponseEntity<>(newAlbum, httpHeaders, HttpStatus.CREATED);
     }
 
     @GetMapping("/dto/{id}")
