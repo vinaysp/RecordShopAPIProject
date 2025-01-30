@@ -54,7 +54,7 @@ public class RecordShopManagerServiceImplementation implements RecordShopManager
     }
 
     @Override
-    public Album insertAlbumFromDTO(AlbumArtistGenreResponseDTO albumArtistGenreResponseDTO){
+    public AlbumArtistGenreResponseDTO insertAlbumFromDTO(AlbumArtistGenreResponseDTO albumArtistGenreResponseDTO){
         Mapper mapper = new Mapper();
 //        Album album = null;
 //        album = mapper.convertDtoToAlbum(albumArtistGenreResponseDTO);
@@ -74,7 +74,7 @@ public class RecordShopManagerServiceImplementation implements RecordShopManager
                 album.setArtist(artist);
             }
         }
-        return recordShopManagerRepository.save(album);
+        return mapper.convertEntityToDto(recordShopManagerRepository.save(album));
     }
 
 //    @Override
