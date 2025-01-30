@@ -25,7 +25,7 @@ public class Artist{
     String artistName;
 
     @JsonBackReference
-    @OneToMany(mappedBy = "artist")
+    @OneToMany(mappedBy = "artist",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Album> albums = new ArrayList<>();
 
     public Artist(String artistName) {
