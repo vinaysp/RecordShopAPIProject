@@ -4,6 +4,7 @@ import com.recordshopapiproject.apiproject.dto.AlbumArtistGenreResponseDTO;
 import com.recordshopapiproject.apiproject.dto.mapper.Mapper;
 import com.recordshopapiproject.apiproject.model.Album;
 import com.recordshopapiproject.apiproject.model.Artist;
+import com.recordshopapiproject.apiproject.model.Genre;
 import com.recordshopapiproject.apiproject.repository.ArtistRepository;
 import com.recordshopapiproject.apiproject.repository.RecordShopManagerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,9 +55,9 @@ public class RecordShopManagerServiceImplementation implements RecordShopManager
     @Override
     public Album insertAlbumFromDTO(AlbumArtistGenreResponseDTO albumArtistGenreResponseDTO){
         Mapper mapper = new Mapper();
-        Album album = new Album();
+        Album album = null;
+        album = mapper.convertDtoToAlbum(albumArtistGenreResponseDTO);
         if(albumArtistGenreResponseDTO.getArtistName() != null){
-            album = mapper.convertDtoToAlbum(albumArtistGenreResponseDTO);
             Artist artist = artistRepository.save(album.getArtist());
             album.setArtist(artist);
         }
@@ -72,6 +73,13 @@ public class RecordShopManagerServiceImplementation implements RecordShopManager
     public Album getAlbumById(Long ID) throws Exception {
         return recordShopManagerRepository.findById(ID)
                 .orElseThrow(() -> new Exception("Album not found with id: " + ID));
+    }
+
+    @Override
+    public AlbumArtistGenreResponseDTO getAlbumByIdReturnDTO(Long ID) throws Exception{
+        Mapper mapper = new Mapper();
+        Album returnedAlbum = recordShopManagerRepository.findById(ID).orElseThrow(() -> new Exception("Album not found with id: " + ID));
+        return mapper.convertEntityToDto(returnedAlbum);
     }
 
     @Override
@@ -98,6 +106,32 @@ public class RecordShopManagerServiceImplementation implements RecordShopManager
         }
 
         return recordShopManagerRepository.save(album);
+    }
+
+    @Override
+    public AlbumArtistGenreResponseDTO updateAlbumUsingDTO(Long id, AlbumArtistGenreResponseDTO albumDTODetails) throws Exception {
+        Mapper mapper = new Mapper();
+        Album album;
+
+        album = recordShopManagerRepository.findById(id)
+                .orElseThrow(() -> new Exception("Album not found with id: " + id));
+
+        album.setName(albumDTODetails.getAlbumName());
+        album.setReleaseYear(albumDTODetails.getAlbumReleaseYear());
+        album.setGenre(Genre.valueOf(albumDTODetails.getAlbumGenre()));
+        album.setDescription(albumDTODetails.getAlbumDescription());
+        album.setStock(albumDTODetails.getStock());
+        album.setPrice(albumDTODetails.getPrice());
+
+        if (album.getArtist() != null) {
+            Artist existingArtist = album.getArtist();
+            existingArtist.setArtistName(albumDTODetails.getArtistName());
+            album.setArtist(existingArtist);
+        } else {
+            album.setArtist(null);
+        }
+
+        return mapper.convertEntityToDto(recordShopManagerRepository.save(album));
     }
 
     @Override
