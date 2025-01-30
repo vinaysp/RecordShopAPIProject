@@ -18,5 +18,5 @@ public interface RecordShopManagerService {
     AlbumArtistGenreResponseDTO updateAlbumUsingDTO(Long id, AlbumArtistGenreResponseDTO albumDTODetails) throws Exception;
     public void deleteAlbum(Long ID);
     Album getAlbumById(Long ID) throws Exception;
-    Album insertAlbumFromDTO(AlbumArtistGenreResponseDTO albumArtistGenreResponseDTO);
+    AlbumArtistGenreResponseDTO insertAlbumFromDTO(AlbumArtistGenreResponseDTO albumArtistGenreResponseDTO);
 }
