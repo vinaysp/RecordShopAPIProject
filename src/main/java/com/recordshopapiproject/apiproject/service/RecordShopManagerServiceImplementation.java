@@ -7,6 +7,7 @@ import com.recordshopapiproject.apiproject.model.Artist;
 import com.recordshopapiproject.apiproject.model.Genre;
 import com.recordshopapiproject.apiproject.repository.ArtistRepository;
 import com.recordshopapiproject.apiproject.repository.RecordShopManagerRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -55,11 +56,23 @@ public class RecordShopManagerServiceImplementation implements RecordShopManager
     @Override
     public Album insertAlbumFromDTO(AlbumArtistGenreResponseDTO albumArtistGenreResponseDTO){
         Mapper mapper = new Mapper();
-        Album album = null;
-        album = mapper.convertDtoToAlbum(albumArtistGenreResponseDTO);
-        if(albumArtistGenreResponseDTO.getArtistName() != null){
-            Artist artist = artistRepository.save(album.getArtist());
-            album.setArtist(artist);
+//        Album album = null;
+//        album = mapper.convertDtoToAlbum(albumArtistGenreResponseDTO);
+//        if(albumArtistGenreResponseDTO.getArtistName() != null){
+//            Artist artist = artistRepository.save(album.getArtist());
+//            album.setArtist(artist);
+//        }
+//        return recordShopManagerRepository.save(album);
+        Album album = mapper.convertDtoToAlbum(albumArtistGenreResponseDTO);
+
+        if (albumArtistGenreResponseDTO.getArtistName() != null) {
+            Optional<Artist> existingArtist = artistRepository.findByArtistName(albumArtistGenreResponseDTO.getArtistName());
+            if (existingArtist.isPresent()) {
+                album.setArtist(existingArtist.get());
+            } else {
+                Artist artist = artistRepository.save(album.getArtist());
+                album.setArtist(artist);
+            }
         }
         return recordShopManagerRepository.save(album);
     }
@@ -109,6 +122,7 @@ public class RecordShopManagerServiceImplementation implements RecordShopManager
     }
 
     @Override
+    @Transactional
     public AlbumArtistGenreResponseDTO updateAlbumUsingDTO(Long id, AlbumArtistGenreResponseDTO albumDTODetails) throws Exception {
         Mapper mapper = new Mapper();
         Album album;
@@ -123,15 +137,37 @@ public class RecordShopManagerServiceImplementation implements RecordShopManager
         album.setStock(albumDTODetails.getStock());
         album.setPrice(albumDTODetails.getPrice());
 
-        if (album.getArtist() != null) {
-            Artist existingArtist = album.getArtist();
-            existingArtist.setArtistName(albumDTODetails.getArtistName());
-            album.setArtist(existingArtist);
-        } else {
-            album.setArtist(null);
+//        if (album.getArtist() != null) {
+//            Artist existingArtist = album.getArtist();
+//            existingArtist.setArtistName(albumDTODetails.getArtistName());
+//            album.setArtist(existingArtist);
+//        } else {
+//            album.setArtist(null);
+//        }
+        if (albumDTODetails.getArtistName() != null) {
+            Artist artist;
+            if (albumDTODetails.getArtistId() != null) {
+                artist = artistRepository.findById(albumDTODetails.getArtistId())
+                        .orElse(new Artist());
+
+            } else {
+                artist = new Artist();
+            }
+
+            artist.setArtistName(albumDTODetails.getArtistName());
+            artist = artistRepository.save(artist);
+
+            // Handle the bidirectional relationship
+            if (album.getArtist() != null && !album.getArtist().equals(artist)) {
+                album.getArtist().removeAlbum(album);
+            }
+            artist.addAlbum(album);
+            album.setArtist(artist);
         }
 
-        return mapper.convertEntityToDto(recordShopManagerRepository.save(album));
+//        return mapper.convertEntityToDto(recordShopManagerRepository.save(album));
+        Album updatedAlbum = recordShopManagerRepository.save(album);
+        return mapper.convertEntityToDto(updatedAlbum);
     }
 
     @Override
