@@ -42,3 +42,8 @@ Through the use of this application and its API endpoints users are able to;
 |/api/v1/recordShop|	POST|	Add new album|
 |/api/v1/recordShop/{albumId}|	PUT|	Update existing album|
 |/api/v1/recordShop/{id}|	DELETE|	Delete album by id|
+
+# Application updates
+Currently refactoring application on projectRefactor branch. 
+Using data transfer object to structure JSON outputs from API endpoints in more friendly manner by removing nested objects and altering how this information is displayed in the JSON outputs.
+This should enable more flexible consumption of the backend JSON outputs for my frontend mobile application.
