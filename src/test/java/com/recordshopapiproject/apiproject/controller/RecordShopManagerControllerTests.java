@@ -128,7 +128,7 @@ class RecordShopManagerControllerTests {
         Album album = new Album(me,"you got this",2090,Genre.Lofi,"slowly getting there", 1, 9.99);
         AlbumArtistGenreResponseDTO albumArtistGenreResponseDTO = new AlbumArtistGenreResponseDTO(album);
 
-        when(mockRecordShopManagerImpl.insertAlbumFromDTO(any(AlbumArtistGenreResponseDTO.class))).thenReturn(album);
+        when(mockRecordShopManagerImpl.insertAlbumFromDTO(any(AlbumArtistGenreResponseDTO.class))).thenReturn(albumArtistGenreResponseDTO);
 
         this.mockMvcController.perform(
                         MockMvcRequestBuilders.post("/api/v1/recordShop/dtoPostAlbums")
