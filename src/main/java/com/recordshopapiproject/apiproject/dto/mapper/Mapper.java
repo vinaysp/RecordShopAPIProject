@@ -15,8 +15,8 @@ public class Mapper {
 
     public Album convertDtoToAlbum(AlbumArtistGenreResponseDTO albumArtistGenreResponseDTO){
         return new Album(
-                new Artist (albumArtistGenreResponseDTO.getAlbumName()),
-                albumArtistGenreResponseDTO.getArtistName(),
+                new Artist (albumArtistGenreResponseDTO.getArtistName()),
+                albumArtistGenreResponseDTO.getAlbumName(),
                 albumArtistGenreResponseDTO.getAlbumReleaseYear(),
                 Genre.valueOf(albumArtistGenreResponseDTO.getAlbumGenre()),
                 albumArtistGenreResponseDTO.getAlbumDescription(),
