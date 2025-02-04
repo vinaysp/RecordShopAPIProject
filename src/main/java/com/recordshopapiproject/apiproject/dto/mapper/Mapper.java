@@ -21,7 +21,8 @@ public class Mapper {
                 Genre.valueOf(albumArtistGenreResponseDTO.getAlbumGenre()),
                 albumArtistGenreResponseDTO.getAlbumDescription(),
                 albumArtistGenreResponseDTO.getStock(),
-                albumArtistGenreResponseDTO.getPrice()
+                albumArtistGenreResponseDTO.getPrice(),
+                albumArtistGenreResponseDTO.getAlbumImageUrl()
         );
     }
 }
