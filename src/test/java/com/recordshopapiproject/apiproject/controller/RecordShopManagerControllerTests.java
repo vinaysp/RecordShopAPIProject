@@ -57,10 +57,10 @@ class RecordShopManagerControllerTests {
         List<Album> albums = new ArrayList<>();
         Artist me = new Artist("me");
         Artist m3 = new Artist("m3");
-        albums.add(new Album(me,"Do your best", 2022, Genre.Rock, "motivational", 1, 9999999.99));
-        albums.add(new Album(me,"keep going", 2024, Genre.Pop,"very motivational", 12, 10.50));
-        albums.add(new Album(m3,"Try it, fix it",2021, Genre.Lofi, "motivationalllll", 1, 999.99));
-        albums.add(new Album(m3,"Do your best",2022, Genre.Rock,"motivational", 1, 9999999.99));
+        albums.add(new Album(me,"Do your best", 2022, Genre.Rock, "motivational", 1, 9999999.99,"test url"));
+        albums.add(new Album(me,"keep going", 2024, Genre.Pop,"very motivational", 12, 10.50, "test url 2"));
+        albums.add(new Album(m3,"Try it, fix it",2021, Genre.Lofi, "motivationalllll", 1, 999.99,"test url 3"));
+        albums.add(new Album(m3,"Do your best",2022, Genre.Rock,"motivational", 1, 9999999.99, "test url four"));
 
         when(mockRecordShopManagerImpl.getAllAlbums()).thenReturn(albums);
 
@@ -105,7 +105,7 @@ class RecordShopManagerControllerTests {
     public void testPostMappingAddAlbum() throws Exception{
         Artist me = new Artist("me");
         List<String> songs2 = List.of("test 1", "test 2", "test 3", "test 4");
-        Album album = new Album(me,"you got this",2090,Genre.Lofi,"slowly getting there", 1, 9.99);
+        Album album = new Album(me,"you got this",2090,Genre.Lofi,"slowly getting there", 1, 9.99, "test url 5");
 
         when(mockRecordShopManagerImpl.insertAlbum(any(Album.class))).thenReturn(album);
 
@@ -125,7 +125,7 @@ class RecordShopManagerControllerTests {
     @Test
     public void testPostMappingAddAlbumWhenSubmittingDTO() throws Exception{
         Artist me = new Artist("me");
-        Album album = new Album(me,"you got this",2090,Genre.Lofi,"slowly getting there", 1, 9.99);
+        Album album = new Album(me,"you got this",2090,Genre.Lofi,"slowly getting there", 1, 9.99,"test url 6");
         AlbumArtistGenreResponseDTO albumArtistGenreResponseDTO = new AlbumArtistGenreResponseDTO(album);
 
         when(mockRecordShopManagerImpl.insertAlbumFromDTO(any(AlbumArtistGenreResponseDTO.class))).thenReturn(albumArtistGenreResponseDTO);
@@ -146,7 +146,7 @@ class RecordShopManagerControllerTests {
     @Test
     public void addAlbum_WithValidInput_ShouldReturnCreated() throws Exception {
         Artist me = new Artist("me");
-        Album album = new Album(me, "Test Album", 2024, Genre.Rock, "Description", 10, 29.99);
+        Album album = new Album(me, "Test Album", 2024, Genre.Rock, "Description", 10, 29.99, "test url 8");
         when(mockRecordShopManagerImpl.insertAlbum(any(Album.class))).thenReturn(album);
 
         mockMvcController.perform(post("/api/v1/recordShop")

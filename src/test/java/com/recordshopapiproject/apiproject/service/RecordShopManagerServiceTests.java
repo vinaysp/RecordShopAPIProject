@@ -40,9 +40,9 @@ class RecordShopManagerServiceTests {
         List<Album> albums = new ArrayList<>();
         Artist radiohead = new Artist("Radiohead");
         Artist wham = new Artist("Wham!");
-        albums.add(new Album(radiohead,"Darkside of the moon",2008, Genre.Indie,"cool", 3,8.99));
-        albums.add(new Album(wham,"Darkside of the moon 2",2009, Genre.Lofi," so cool", 1,90.99));
-        albums.add(new Album(wham,"Wham",1980, Genre.Pop,"very cool", 1000,999.99));
+        albums.add(new Album(radiohead,"Darkside of the moon",2008, Genre.Indie,"cool", 3,8.99, "test url 1"));
+        albums.add(new Album(wham,"Darkside of the moon 2",2009, Genre.Lofi," so cool", 1,90.99, "test url 2"));
+        albums.add(new Album(wham,"Wham",1980, Genre.Pop,"very cool", 1000,999.99,"test url 3"));
 
         // Ensure that when .findAll() is invoked, it will always return the albums above
         when(mockrecordShopManagerRepository.findAll()).thenReturn(albums);
@@ -59,7 +59,7 @@ class RecordShopManagerServiceTests {
     @DisplayName("RecordShopManager should succesfully be able to add a new album to database")
     void testInsertAlbumIntoDatabase() {
         Artist me = new Artist("me");
-        Album expectedAlbum = new Album(me,"Do your best",2024,Genre.Rock,"motivational",1,9999999.99);
+        Album expectedAlbum = new Album(me,"Do your best",2024,Genre.Rock,"motivational",1,9999999.99,"test url 4");
 
         when(artistRepository.save(any(Artist.class))).thenReturn(me);
 
@@ -76,7 +76,7 @@ class RecordShopManagerServiceTests {
     void getAlbumsByID() throws Exception {
         Long ID = 1L;
         Artist me = new Artist("me");
-        var expectedAlbum = new Album(me,"Do your best",2024,Genre.Rock,"motivational",1,9999999.99);
+        var expectedAlbum = new Album(me,"Do your best",2024,Genre.Rock,"motivational",1,9999999.99, "test url");
 
         when(mockrecordShopManagerRepository.findById(ID)).thenReturn(Optional.of(expectedAlbum));
 
@@ -91,8 +91,8 @@ class RecordShopManagerServiceTests {
     void updateAlbum() throws Exception {
         Long albumId = 1L;
         Artist me = new Artist("me");
-        var existingAlbum = new Album(me,"Do your best",2022,Genre.Rock, "motivational",1,9999999.99);
-        var updatedAlbum = new Album(me,"keep going",2024,Genre.Pop,"very motivational",12,10.50);
+        var existingAlbum = new Album(me,"Do your best",2022,Genre.Rock, "motivational",1,9999999.99, "test url 5");
+        var updatedAlbum = new Album(me,"keep going",2024,Genre.Pop,"very motivational",12,10.50, "test url 6");
 
         when(mockrecordShopManagerRepository.findById(albumId)).thenReturn(Optional.of(existingAlbum));
 
@@ -116,7 +116,7 @@ class RecordShopManagerServiceTests {
     void deleteAlbum() {
         Long albumId = 1L;
         Artist me = new Artist("me");
-        var existingAlbum = new Album(me,"Do your best",2022,Genre.Rock,"motivational",1,9999999.99);
+        var existingAlbum = new Album(me,"Do your best",2022,Genre.Rock,"motivational",1,9999999.99, "test url 7");
         when(mockrecordShopManagerRepository.save(existingAlbum)).thenReturn(existingAlbum);
 
         doNothing().when(mockrecordShopManagerRepository).deleteById(albumId);
