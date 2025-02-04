@@ -106,6 +106,7 @@ public class RecordShopManagerServiceImplementation implements RecordShopManager
         album.setDescription(albumDetails.getDescription());
         album.setStock(albumDetails.getStock());
         album.setPrice(albumDetails.getPrice());
+        album.setImageUrl(albumDetails.getImageUrl());
 
         if (albumDetails.getArtist() != null) {
             Artist existingArtist = album.getArtist();
@@ -136,6 +137,7 @@ public class RecordShopManagerServiceImplementation implements RecordShopManager
         album.setDescription(albumDTODetails.getAlbumDescription());
         album.setStock(albumDTODetails.getStock());
         album.setPrice(albumDTODetails.getPrice());
+        album.setImageUrl(albumDTODetails.getAlbumImageUrl());
 
 //        if (album.getArtist() != null) {
 //            Artist existingArtist = album.getArtist();
