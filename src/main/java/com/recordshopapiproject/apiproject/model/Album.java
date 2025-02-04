@@ -36,8 +36,11 @@ public class Album {
     @Column
     double price;
 
+    @Column
+    String imageUrl;
+
     public Album(Artist artist, String name, int releaseYear, Genre genre,
-                 String description, int stock, double price) {
+                 String description, int stock, double price, String imageUrl) {
         this.artist = artist;
         this.name = name;
         this.releaseYear = releaseYear;
@@ -45,6 +48,7 @@ public class Album {
         this.description = description;
         this.stock = stock;
         this.price = price;
+        this.imageUrl = imageUrl;
     }
 
     public Album(){};
