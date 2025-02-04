@@ -14,6 +14,7 @@ public class AlbumArtistGenreResponseDTO {
     private int albumReleaseYear;
     private int stock;
     private double price;
+    private String albumImageUrl;
 
     public AlbumArtistGenreResponseDTO(Album album){
         this.albumId = album.getId();
@@ -25,6 +26,7 @@ public class AlbumArtistGenreResponseDTO {
         this.albumReleaseYear = album.getReleaseYear();
         this.stock = album.getStock();
         this.price = album.getPrice();
+        this.albumImageUrl = album.getImageUrl();
     }
 
     public AlbumArtistGenreResponseDTO() {}
