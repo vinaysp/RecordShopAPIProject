@@ -31,5 +31,4 @@ public class AlbumArtistGenreResponseDTO {
 
     public AlbumArtistGenreResponseDTO() {}
 
-
 }
