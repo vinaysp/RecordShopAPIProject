@@ -7,6 +7,8 @@ import com.recordshopapiproject.apiproject.model.Artist;
 import com.recordshopapiproject.apiproject.model.Genre;
 import com.recordshopapiproject.apiproject.repository.ArtistRepository;
 import com.recordshopapiproject.apiproject.repository.RecordShopManagerRepository;
+import com.recordshopapiproject.apiproject.service.spotifyapi.SpotifyApiServiceImplementation;
+import io.micrometer.common.util.StringUtils;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,9 @@ public class RecordShopManagerServiceImplementation implements RecordShopManager
 
     @Autowired
     ArtistRepository artistRepository;
+
+    @Autowired
+    SpotifyApiServiceImplementation spotifyService;
 
     @Override
     public List<Album> getAllAlbums() {
@@ -64,6 +69,14 @@ public class RecordShopManagerServiceImplementation implements RecordShopManager
 //        }
 //        return recordShopManagerRepository.save(album);
         Album album = mapper.convertDtoToAlbum(albumArtistGenreResponseDTO);
+
+        if (StringUtils.isBlank(albumArtistGenreResponseDTO.getAlbumImageUrl())) {
+            String coverUrl = spotifyService.fetchAlbumCoverUrl(
+                    albumArtistGenreResponseDTO.getAlbumName(),
+                    albumArtistGenreResponseDTO.getArtistName()
+            );
+            album.setImageUrl(coverUrl);
+        }
 
         if (albumArtistGenreResponseDTO.getArtistName() != null) {
             Optional<Artist> existingArtist = artistRepository.findByArtistName(albumArtistGenreResponseDTO.getArtistName());
@@ -146,6 +159,14 @@ public class RecordShopManagerServiceImplementation implements RecordShopManager
 //        } else {
 //            album.setArtist(null);
 //        }
+        if (StringUtils.isBlank(albumDTODetails.getAlbumImageUrl())) {
+            String coverUrl = spotifyService.fetchAlbumCoverUrl(
+                    albumDTODetails.getAlbumName(),
+                    albumDTODetails.getArtistName()
+            );
+            album.setImageUrl(coverUrl);
+        }
+
         if (albumDTODetails.getArtistName() != null) {
             Artist artist;
             if (albumDTODetails.getArtistId() != null) {
