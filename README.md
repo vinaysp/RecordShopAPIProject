@@ -28,7 +28,7 @@ Through the use of this application and its API endpoints users are able to;
 - Java 21 installed
 - Maven installed
 - PostgreSQL installed with local database called "record_shop" created and running. 
-- Spotify account with spotify client id, client secret created , please see [Getting started with Web API]("https://developer.spotify.com/documentation/web-api/tutorials/getting-started") for instructions
+- Spotify account with spotify client id, client secret created , please see [Getting started with Web API](https://developer.spotify.com/documentation/web-api/tutorials/getting-started) for instructions
 
 
 # Application setup
@@ -63,7 +63,7 @@ Through the use of this application and its API endpoints users are able to;
 # Latest Updates
 - Feb 10 2025 
 - Implemented data transfer objects to structure JSON outputs from API endpoints in a more friendly manner. JSON structure no longer contains nested objects.
-- Implemented [spotify-web-api-java]("https://github.com/spotify-web-api-java/spotify-web-api-java"). 
+- Implemented [spotify-web-api-java](https://github.com/spotify-web-api-java/spotify-web-api-java). 
 - Implemented new logic - when adding or updating an album, if albumImageUrl field is blank, checks are performed against artist name and album name. If both are real, spotify api is called and will populate albumImageUrl field with the corresponding album cover art url. If album name or artist name are not real a default url is provided.
 - Users can still input custom url into albumImageUrl field should they wish.
 - Impact: Updates made enable more flexible consumption of the backend JSON outputs for frontend mobile application development.
