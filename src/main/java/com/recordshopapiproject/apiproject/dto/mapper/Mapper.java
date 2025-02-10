@@ -10,10 +10,20 @@ import org.springframework.stereotype.Component;
 public class Mapper {
 
     public AlbumArtistGenreResponseDTO convertEntityToDto(Album album){
+
+        if (album == null) {
+            throw new IllegalArgumentException("Cannot convert null album to DTO");
+        }
+
         return new AlbumArtistGenreResponseDTO(album);
     }
 
     public Album convertDtoToAlbum(AlbumArtistGenreResponseDTO albumArtistGenreResponseDTO){
+
+        if (albumArtistGenreResponseDTO == null) {
+            throw new IllegalArgumentException("Cannot convert null DTO to Album");
+        }
+
         return new Album(
                 new Artist (albumArtistGenreResponseDTO.getArtistName()),
                 albumArtistGenreResponseDTO.getAlbumName(),
