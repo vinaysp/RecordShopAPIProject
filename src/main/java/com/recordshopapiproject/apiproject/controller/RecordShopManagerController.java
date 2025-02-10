@@ -1,5 +1,7 @@
 package com.recordshopapiproject.apiproject.controller;
 
+import com.recordshopapiproject.apiproject.dto.AlbumArtistGenreResponseDTO;
+import com.recordshopapiproject.apiproject.dto.mapper.Mapper;
 import com.recordshopapiproject.apiproject.model.Album;
 import com.recordshopapiproject.apiproject.service.RecordShopManagerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,32 +18,41 @@ public class RecordShopManagerController {
     RecordShopManagerService recordShopManagerService;
 
     @GetMapping
-    public ResponseEntity<Iterable<Album>>getAlbums(){
-        Iterable<Album> albums;
-        albums = recordShopManagerService.getAllAlbums();
-        return ResponseEntity.ok(albums);
+    public ResponseEntity<Iterable<AlbumArtistGenreResponseDTO>> getResponseDTO(){
+        Iterable<AlbumArtistGenreResponseDTO> albumArtistGenreResponseDTOS;
+        albumArtistGenreResponseDTOS = recordShopManagerService.getResponseDTO();
+        return ResponseEntity.ok(albumArtistGenreResponseDTOS);
     }
 
     @PostMapping
-    public ResponseEntity<Album> addAlbum(@RequestBody Album album){
+    public ResponseEntity<AlbumArtistGenreResponseDTO> addAlbumFromDTO(@RequestBody AlbumArtistGenreResponseDTO albumArtistGenreResponseDTO) {
 
-        if (album.getName() == null || album.getName().trim().isEmpty()){
-        return ResponseEntity.badRequest().build();
-        }
-
-        if (album.getPrice()<0){
+        if (albumArtistGenreResponseDTO.getAlbumName() == null || albumArtistGenreResponseDTO.getAlbumName().trim().isEmpty()) {
             return ResponseEntity.badRequest().build();
         }
 
-        Album newAlbum = recordShopManagerService.insertAlbum(album);
+        if (albumArtistGenreResponseDTO.getPrice() < 0) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        AlbumArtistGenreResponseDTO newAlbum = recordShopManagerService.insertAlbumFromDTO(albumArtistGenreResponseDTO);
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add("album","/api/v1/recordShop/"+newAlbum.getId().toString());
+        if (newAlbum.getAlbumId() != null) {
+            httpHeaders.add("album", String.format("/api/v1/recordShop/%d", newAlbum.getAlbumId()));
+        }
+//        AlbumArtistGenreResponseDTO responseReturned = mapper.convertEntityToDto(newAlbum);
         return new ResponseEntity<>(newAlbum, httpHeaders, HttpStatus.CREATED);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<AlbumArtistGenreResponseDTO> getAlbumByIdReturnDTO(@PathVariable Long id) throws Exception {
+        AlbumArtistGenreResponseDTO album = recordShopManagerService.getAlbumByIdReturnDTO(id);
+        return ResponseEntity.ok(album);
+    }
+
     @PutMapping("/{albumId}")
-    public ResponseEntity<Album> updateAlbum(@PathVariable Long albumId, @RequestBody Album albumDetails) throws Exception {
-        Album updatedAlbum = recordShopManagerService.updateAlbum(albumId, albumDetails);
+    public ResponseEntity<AlbumArtistGenreResponseDTO> updateAlbumUsingDTO(@PathVariable Long albumId, @RequestBody AlbumArtistGenreResponseDTO albumDetails) throws Exception {
+        AlbumArtistGenreResponseDTO updatedAlbum = recordShopManagerService.updateAlbumUsingDTO(albumId, albumDetails);
         return ResponseEntity.ok(updatedAlbum);
     }
 
@@ -50,11 +61,4 @@ public class RecordShopManagerController {
         recordShopManagerService.deleteAlbum(ID);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Album> getAlbumById(@PathVariable Long id) throws Exception {
-        Album album = recordShopManagerService.getAlbumById(id);
-        return ResponseEntity.ok(album);
-    }
-
 }

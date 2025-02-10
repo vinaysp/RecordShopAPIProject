@@ -1,19 +1,13 @@
 package com.recordshopapiproject.apiproject.service;
 
-import com.recordshopapiproject.apiproject.model.Album;
-
-
+import com.recordshopapiproject.apiproject.dto.AlbumArtistGenreResponseDTO;
 import java.util.List;
-import java.util.Optional;
 
 public interface RecordShopManagerService {
 
-    List<Album> getAllAlbums();
-    Album insertAlbum(Album album);
-
-    Optional<Album> getAlbumsByID(Long ID);
-    public Album updateAlbum(Long id, Album albumDetails) throws Exception;
-    public void deleteAlbum(Long ID);
-    Album getAlbumById(Long ID) throws Exception;
-
+    List<AlbumArtistGenreResponseDTO> getResponseDTO();
+    AlbumArtistGenreResponseDTO getAlbumByIdReturnDTO(Long ID) throws Exception;
+    AlbumArtistGenreResponseDTO updateAlbumUsingDTO(Long id, AlbumArtistGenreResponseDTO albumDTODetails) throws Exception;
+    void deleteAlbum(Long ID);
+    AlbumArtistGenreResponseDTO insertAlbumFromDTO(AlbumArtistGenreResponseDTO albumArtistGenreResponseDTO);
 }

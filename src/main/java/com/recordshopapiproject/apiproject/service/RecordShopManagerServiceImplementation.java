@@ -1,10 +1,15 @@
 package com.recordshopapiproject.apiproject.service;
 
+import com.recordshopapiproject.apiproject.dto.AlbumArtistGenreResponseDTO;
+import com.recordshopapiproject.apiproject.dto.mapper.Mapper;
 import com.recordshopapiproject.apiproject.model.Album;
 import com.recordshopapiproject.apiproject.model.Artist;
 import com.recordshopapiproject.apiproject.model.Genre;
 import com.recordshopapiproject.apiproject.repository.ArtistRepository;
 import com.recordshopapiproject.apiproject.repository.RecordShopManagerRepository;
+import com.recordshopapiproject.apiproject.service.spotifyapi.SpotifyApiServiceImplementation;
+import io.micrometer.common.util.StringUtils;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,52 +27,101 @@ public class RecordShopManagerServiceImplementation implements RecordShopManager
     @Autowired
     ArtistRepository artistRepository;
 
+    @Autowired
+    SpotifyApiServiceImplementation spotifyService;
+
     @Override
-    public List<Album> getAllAlbums() {
-        List<Album> albums = new ArrayList<>();
-        recordShopManagerRepository.findAll().forEach(albums::add);
-        return albums;
+    public List<AlbumArtistGenreResponseDTO> getResponseDTO(){
+        List<AlbumArtistGenreResponseDTO> resultList = new ArrayList<>();
+        Mapper mapper = new Mapper();
+        recordShopManagerRepository.findAll()
+                .forEach(entity -> {
+                    resultList.add(mapper.convertEntityToDto(entity));
+                });
+        return resultList;
     }
 
     @Override
-    public Album insertAlbum(Album album) {
-        if (album.getArtist() != null) {
-            Artist artist = artistRepository.save(album.getArtist());
-            album.setArtist(artist);
+    public AlbumArtistGenreResponseDTO insertAlbumFromDTO(AlbumArtistGenreResponseDTO albumArtistGenreResponseDTO){
+        Mapper mapper = new Mapper();
+
+        Album album = mapper.convertDtoToAlbum(albumArtistGenreResponseDTO);
+
+        if (StringUtils.isBlank(albumArtistGenreResponseDTO.getAlbumImageUrl())) {
+            String coverUrl = spotifyService.fetchAlbumCoverUrl(
+                    albumArtistGenreResponseDTO.getAlbumName(),
+                    albumArtistGenreResponseDTO.getArtistName()
+            );
+            album.setImageUrl(coverUrl);
         }
-        return recordShopManagerRepository.save(album);
+
+        if (albumArtistGenreResponseDTO.getArtistName() != null) {
+            Optional<Artist> existingArtist = artistRepository.findByArtistName(albumArtistGenreResponseDTO.getArtistName());
+            if (existingArtist.isPresent()) {
+                album.setArtist(existingArtist.get());
+            } else {
+                Artist artist = artistRepository.save(album.getArtist());
+                album.setArtist(artist);
+            }
+        }
+        return mapper.convertEntityToDto(recordShopManagerRepository.save(album));
     }
 
     @Override
-    public Optional<Album> getAlbumsByID(Long ID) {
-        return recordShopManagerRepository.findById(ID);
+    public AlbumArtistGenreResponseDTO getAlbumByIdReturnDTO(Long ID) throws Exception{
+        Mapper mapper = new Mapper();
+        Album returnedAlbum = recordShopManagerRepository.findById(ID).orElseThrow(() -> new Exception("Album not found with id: " + ID));
+        return mapper.convertEntityToDto(returnedAlbum);
     }
 
     @Override
-    public Album updateAlbum(Long id, Album albumDetails) throws Exception {
-        Album album = recordShopManagerRepository.findById(id)
+    @Transactional
+    public AlbumArtistGenreResponseDTO updateAlbumUsingDTO(Long id, AlbumArtistGenreResponseDTO albumDTODetails) throws Exception {
+        Mapper mapper = new Mapper();
+        Album album;
+
+        album = recordShopManagerRepository.findById(id)
                 .orElseThrow(() -> new Exception("Album not found with id: " + id));
 
-//        album.setId(albumDetails.getId());
-        album.setName(albumDetails.getName());
-        album.setReleaseYear(albumDetails.getReleaseYear());
-        album.setGenre(albumDetails.getGenre());
-        album.setDescription(albumDetails.getDescription());
-        album.setStock(albumDetails.getStock());
-        album.setPrice(albumDetails.getPrice());
+        album.setName(albumDTODetails.getAlbumName());
+        album.setReleaseYear(albumDTODetails.getAlbumReleaseYear());
+        album.setGenre(Genre.valueOf(albumDTODetails.getAlbumGenre()));
+        album.setDescription(albumDTODetails.getAlbumDescription());
+        album.setStock(albumDTODetails.getStock());
+        album.setPrice(albumDTODetails.getPrice());
+        album.setImageUrl(albumDTODetails.getAlbumImageUrl());
 
-        if (albumDetails.getArtist() != null) {
-            Artist existingArtist = album.getArtist();
-            if (existingArtist != null) {
-                existingArtist.setArtistName(albumDetails.getArtist().getArtistName());
-            }
-
-            album.setArtist(existingArtist);
-        } else {
-            album.setArtist(albumDetails.getArtist());
+        if (StringUtils.isBlank(albumDTODetails.getAlbumImageUrl())) {
+            String coverUrl = spotifyService.fetchAlbumCoverUrl(
+                    albumDTODetails.getAlbumName(),
+                    albumDTODetails.getArtistName()
+            );
+            album.setImageUrl(coverUrl);
         }
 
-        return recordShopManagerRepository.save(album);
+        if (albumDTODetails.getArtistName() != null) {
+            Artist artist;
+            if (albumDTODetails.getArtistId() != null) {
+                artist = artistRepository.findById(albumDTODetails.getArtistId())
+                        .orElse(new Artist());
+
+            } else {
+                artist = new Artist();
+            }
+
+            artist.setArtistName(albumDTODetails.getArtistName());
+            artist = artistRepository.save(artist);
+
+            if (album.getArtist() != null && !album.getArtist().equals(artist)) {
+                album.getArtist().removeAlbum(album);
+            }
+            album.setArtist(artist);
+            artist.addAlbum(album);
+            album.setArtist(artist);
+        }
+
+        Album updatedAlbum = recordShopManagerRepository.save(album);
+        return mapper.convertEntityToDto(updatedAlbum);
     }
 
     @Override
@@ -75,10 +129,6 @@ public class RecordShopManagerServiceImplementation implements RecordShopManager
         recordShopManagerRepository.deleteById(ID);
     }
 
-    @Override
-    public Album getAlbumById(Long ID) throws Exception {
-        return recordShopManagerRepository.findById(ID)
-                .orElseThrow(() -> new Exception("Album not found with id: " + ID));
-    }
+
 
 }

@@ -9,7 +9,8 @@ import lombok.*;
 public class Album {
 
     @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Setter(AccessLevel.NONE)
     @Column
     Long id;
 
@@ -36,50 +37,21 @@ public class Album {
     @Column
     double price;
 
+    @Column
+    String imageUrl;
 
-//    public Album(long id,String name, Artist artist, int releaseYear, Genre genre, String description, int stock, double price) {
-//        this.id = id;
-//        this.name = name;
-//        this.artist = artist;
-//        this.releaseYear = releaseYear;
-//        this.genre = genre;
-//        this.description = description;
-//        this.stock = stock;
-//        this.price = price;
-//    }
-
-    public Album(long id, String name, int releaseYear, Genre genre,
-                 String description, int stock, double price) {
-        this.id = id;
+    public Album(Artist artist, String name, int releaseYear, Genre genre,
+                 String description, int stock, double price, String imageUrl) {
+        this.artist = artist;
         this.name = name;
         this.releaseYear = releaseYear;
         this.genre = genre;
         this.description = description;
         this.stock = stock;
         this.price = price;
+        this.imageUrl = imageUrl;
     }
 
-//    public Album(String name, Artist artist, int releaseYear, Genre genre,String description, int stock, double price) {
-//        this.name = name;
-//        this.artist = artist;
-//        this.releaseYear = releaseYear;
-//        this.genre = genre;
-//        this.description = description;
-//        this.stock = stock;
-//        this.price = price;
-//    }
-
     public Album(){};
-
-//    // Helper method to manage the relationship
-//    public void addArtist(Artist artist) {
-//        this.artist.add(artist);
-//        artist.getAlbums().add(this);
-//    }
-//
-//    public void removeArtist(Artist artist) {
-//        this.artists.remove(artist);
-//        artist.getAlbums().remove(this);
-//    }
 
 }
