@@ -18,6 +18,7 @@ public class Artist{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Setter(AccessLevel.NONE)
     @Column
     Long id;
 
