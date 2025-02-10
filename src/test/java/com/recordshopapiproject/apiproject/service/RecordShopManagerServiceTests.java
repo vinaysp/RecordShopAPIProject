@@ -62,45 +62,23 @@ class RecordShopManagerServiceTests {
     @Test
     @DisplayName("RecordShopManager returns all albums listed in database")
     void testGetAllAlbumsReturnsListOfAlbums() {
-//        List<Album> albums = new ArrayList<>();
-//        Artist radiohead = new Artist("Radiohead");
-//        Artist wham = new Artist("Wham!");
-//        albums.add(new Album(radiohead,"Darkside of the moon",2008, Genre.Indie,"cool", 3,8.99, "test url 1"));
-//        albums.add(new Album(wham,"Darkside of the moon 2",2009, Genre.Lofi," so cool", 1,90.99, "test url 2"));
-//        albums.add(new Album(wham,"Wham",1980, Genre.Pop,"very cool", 1000,999.99,"test url 3"));
-//
-//
-//        when(mockrecordShopManagerRepository.findAll()).thenReturn(albums);
-//
-//
-//        List<AlbumArtistGenreResponseDTO> actualResult = recordShopManagerServiceImplementation.getResponseDTO();
-//
-//
-//        assertThat(actualResult).hasSize(3);
-
-        // Create artists and establish relationships
         Artist radiohead = new Artist("Radiohead");
         Artist wham = new Artist("Wham!");
 
-        // Create albums with proper bidirectional relationships
         Album album1 = new Album(radiohead, "Darkside of the moon", 2008, Genre.Indie, "cool", 3, 8.99, "test url 1");
         Album album2 = new Album(wham, "Darkside of the moon 2", 2009, Genre.Lofi, "so cool", 1, 90.99, "test url 2");
         Album album3 = new Album(wham, "Wham", 1980, Genre.Pop, "very cool", 1000, 999.99, "test url 3");
 
-        // Set up bidirectional relationships
         radiohead.addAlbum(album1);
         wham.addAlbum(album2);
         wham.addAlbum(album3);
 
         List<Album> albums = Arrays.asList(album1, album2, album3);
 
-        // Mock repository behavior
         when(mockrecordShopManagerRepository.findAll()).thenReturn(albums);
 
-        // Execute service method
         List<AlbumArtistGenreResponseDTO> actualResult = recordShopManagerServiceImplementation.getResponseDTO();
 
-        // Verify the results
         assertThat(actualResult).hasSize(3);
         assertThat(actualResult.get(0).getArtistName()).isEqualTo("Radiohead");
         assertThat(actualResult.get(1).getArtistName()).isEqualTo("Wham!");
