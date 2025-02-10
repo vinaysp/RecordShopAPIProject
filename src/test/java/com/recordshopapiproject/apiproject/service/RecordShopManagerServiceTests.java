@@ -77,23 +77,11 @@ class RecordShopManagerServiceTests {
 
 
         assertThat(actualResult).hasSize(3);
-//        assertThat(actualResult).isEqualTo(albums);
     }
 
     @Test
     @DisplayName("RecordShopManager should succesfully be able to add a new album to database")
     void testInsertAlbumIntoDatabase() {
-//        Artist me = new Artist("me");
-//        Album expectedAlbum = new Album(me,"Do your best",2024,Genre.Rock,"motivational",1,9999999.99,"test url 4");
-//        AlbumArtistGenreResponseDTO albumArtistGenreResponseDTO = new AlbumArtistGenreResponseDTO(expectedAlbum);
-//
-//        when(artistRepository.save(any(Artist.class))).thenReturn(me);
-//
-//        when(mockrecordShopManagerRepository.save(expectedAlbum)).thenReturn(expectedAlbum);
-//
-//        AlbumArtistGenreResponseDTO actualResult = recordShopManagerServiceImplementation.insertAlbumFromDTO(albumArtistGenreResponseDTO);
-//
-//        assertThat(actualResult).isEqualTo(albumArtistGenreResponseDTO);
         AlbumArtistGenreResponseDTO inputDto = new AlbumArtistGenreResponseDTO();
         inputDto.setArtistName("me");
         inputDto.setAlbumName("Do your best");
@@ -130,32 +118,10 @@ class RecordShopManagerServiceTests {
 
         assertTrue(result.isPresent());
         assertEquals(expectedAlbum.getId(),result.get().getAlbumId());
-//        assertEquals(Optional.of(expectedAlbum),result);
     }
 
     @Test
     void updateAlbum() throws Exception {
-//        Long albumId = 1L;
-//        Artist me = new Artist("me");
-//        var existingAlbum = new Album(me,"Do your best",2022,Genre.Rock, "motivational",1,9999999.99, "test url 5");
-//        var updatedAlbum = new Album(me,"keep going",2024,Genre.Pop,"very motivational",12,10.50, "test url 6");
-//        AlbumArtistGenreResponseDTO albumArtistGenreResponseDTO = new AlbumArtistGenreResponseDTO(updatedAlbum);
-//
-//        when(mockrecordShopManagerRepository.findById(albumId)).thenReturn(Optional.of(existingAlbum));
-//
-//        when(mockrecordShopManagerRepository.save(any(Album.class))).thenReturn(updatedAlbum);
-//
-//        AlbumArtistGenreResponseDTO result = recordShopManagerServiceImplementation.updateAlbumUsingDTO(albumId, albumArtistGenreResponseDTO);
-//
-////        assertNotNull(result);
-//        assertEquals(existingAlbum.getId(), result.getAlbumId());
-//        assertEquals("keep going", result.getAlbumName());
-////        assertEquals(me,result.getArtist());
-//        assertEquals(2024,result.getAlbumReleaseYear());
-//        assertEquals(Genre.Pop,Genre.valueOf(result.getAlbumGenre()));
-//        assertEquals("very motivational",result.getAlbumDescription());
-//        assertEquals(12,result.getStock());
-//        assertEquals(10.50,result.getPrice());
 
         Long albumId = 1L;
         Artist existingArtist = new Artist("me");
