@@ -34,16 +34,16 @@ Through the use of this application and its API endpoints users are able to;
 # Application setup
 1) Clone this repository using : `git clone https://github.com/vinaysp/RecordShopAPIProject.git` in command line
 2) Open Project within Intellij IDEA
-3) Create your own properties file under the resource folder.
+3) Create your own properties file under the resource folder
 4) Copy example details as follows into your properties file:
- ` #Database Configuration
-   spring.datasource.url=${POSTGRES_URL}
-   spring.datasource.username=${POSTGRES_USERNAME}
-   spring.datasource.password=${POSTGRES_PASSWORD}
-   #Spotify API Configuration
-   spotify.client.id=${SPOTIFY_CLIENT_ID}
-   spotify.client.secret=${SPOTIFY_CLIENT_SECRET}
-   #Application Configuration
+ ` #Database Configuration  
+   spring.datasource.url=${POSTGRES_URL}  
+   spring.datasource.username=${POSTGRES_USERNAME}  
+   spring.datasource.password=${POSTGRES_PASSWORD}  
+   #Spotify API Configuration  
+   spotify.client.id=${SPOTIFY_CLIENT_ID}  
+   spotify.client.secret=${SPOTIFY_CLIENT_SECRET}  
+   #Application Configuration  
    album.image.fallback=${FALLBACK_IMAGE_URL} (this is the default url that will be populated if album name or artist name is not real or albumImageUrl field is left blank)`
 5) Replace environment variable with actual values
 6) Remember to add properties file to your gitignore file
