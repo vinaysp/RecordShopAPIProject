@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 public class AlbumArtistGenreResponseDTO {
-    private Long albumId;
+    public Long albumId;
     private Long artistId;
     private String artistName;
     private String albumName;
@@ -17,6 +17,11 @@ public class AlbumArtistGenreResponseDTO {
     private String albumImageUrl;
 
     public AlbumArtistGenreResponseDTO(Album album){
+
+        if(album == null){
+            throw new IllegalArgumentException("Album cannot be null");
+        }
+
         this.albumId = album.getId();
         this.artistId = album.getArtist() != null ? album.getArtist().getId() : null;
         this.artistName = album.getArtist() != null ? album.getArtist().getArtistName() : null;
