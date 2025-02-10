@@ -51,38 +51,38 @@ class RecordShopManagerControllerTests {
         mapper = new ObjectMapper();
     }
 
-    @Test
-    public void testGetAllAlbumsReturnsAlbums() throws Exception {
-
-        List<Album> albums = new ArrayList<>();
-        Artist me = new Artist("me");
-        Artist m3 = new Artist("m3");
-        albums.add(new Album(me,"Do your best", 2022, Genre.Rock, "motivational", 1, 9999999.99,"test url"));
-        albums.add(new Album(me,"keep going", 2024, Genre.Pop,"very motivational", 12, 10.50, "test url 2"));
-        albums.add(new Album(m3,"Try it, fix it",2021, Genre.Lofi, "motivationalllll", 1, 999.99,"test url 3"));
-        albums.add(new Album(m3,"Do your best",2022, Genre.Rock,"motivational", 1, 9999999.99, "test url four"));
-
-        when(mockRecordShopManagerImpl.getAllAlbums()).thenReturn(albums);
-
-        this.mockMvcController.perform(
-                        MockMvcRequestBuilders.get("/api/v1/recordShop"))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(jsonPath("$[0].name").value("Do your best"))
-                .andExpect(jsonPath("$[1].name").value("keep going"))
-                .andExpect(jsonPath("$[2].name").value("Try it, fix it"))
-                .andExpect(jsonPath("$[3].name").value("Do your best"));
-
-    }
+//    @Test
+//    public void testGetAllAlbumsReturnsAlbums() throws Exception {
+//
+//        List<Album> albums = new ArrayList<>();
+//        Artist me = new Artist("me");
+//        Artist m3 = new Artist("m3");
+//        albums.add(new Album(me,"Do your best", 2022, Genre.Rock, "motivational", 1, 9999999.99,"test url"));
+//        albums.add(new Album(me,"keep going", 2024, Genre.Pop,"very motivational", 12, 10.50, "test url 2"));
+//        albums.add(new Album(m3,"Try it, fix it",2021, Genre.Lofi, "motivationalllll", 1, 999.99,"test url 3"));
+//        albums.add(new Album(m3,"Do your best",2022, Genre.Rock,"motivational", 1, 9999999.99, "test url four"));
+//
+//        when(mockRecordShopManagerImpl.getAllAlbums()).thenReturn(albums);
+//
+//        this.mockMvcController.perform(
+//                        MockMvcRequestBuilders.get("/api/v1/recordShop"))
+//                .andExpect(MockMvcResultMatchers.status().isOk())
+//                .andExpect(jsonPath("$[0].name").value("Do your best"))
+//                .andExpect(jsonPath("$[1].name").value("keep going"))
+//                .andExpect(jsonPath("$[2].name").value("Try it, fix it"))
+//                .andExpect(jsonPath("$[3].name").value("Do your best"));
+//
+//    }
 
     @Test
     public void testGetResponseDTOReturnsAlbumArtistGenreResponseDTO() throws Exception {
         List<AlbumArtistGenreResponseDTO> albumArtistGenreResponseDTOS= new ArrayList<>();
         Artist me = new Artist("me");
         Artist m3 = new Artist("m3");
-        Album one = new Album(me,"Do your best", 2022, Genre.Rock, "motivational", 1, 9999999.99);
-        Album two = new Album(me,"keep going", 2024, Genre.Pop,"very motivational", 12, 10.50);
-        Album three = new Album(m3,"Try it, fix it",2021, Genre.Lofi, "motivationalllll", 1, 999.99);
-        Album four = new Album(m3,"Do your best",2022, Genre.Rock,"motivational", 1, 9999999.99);
+        Album one = new Album(me,"Do your best", 2022, Genre.Rock, "motivational", 1, 9999999.99,"test url");
+        Album two = new Album(me,"keep going", 2024, Genre.Pop,"very motivational", 12, 10.50,"test url");
+        Album three = new Album(m3,"Try it, fix it",2021, Genre.Lofi, "motivationalllll", 1, 999.99,"test url");
+        Album four = new Album(m3,"Do your best",2022, Genre.Rock,"motivational", 1, 9999999.99,"test url");
 
         albumArtistGenreResponseDTOS.add(new AlbumArtistGenreResponseDTO(one));
         albumArtistGenreResponseDTOS.add(new AlbumArtistGenreResponseDTO(two));
@@ -92,7 +92,7 @@ class RecordShopManagerControllerTests {
         when(mockRecordShopManagerImpl.getResponseDTO()).thenReturn(albumArtistGenreResponseDTOS);
 
         this.mockMvcController.perform(
-                        MockMvcRequestBuilders.get("/api/v1/recordShop/dtoGetAlbums"))
+                        MockMvcRequestBuilders.get("/api/v1/recordShop"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(jsonPath("[0].albumName").value("Do your best"))
                 .andExpect(jsonPath("[1].albumName").value("keep going"))
@@ -101,26 +101,26 @@ class RecordShopManagerControllerTests {
                 .andDo(print());
     }
 
-    @Test
-    public void testPostMappingAddAlbum() throws Exception{
-        Artist me = new Artist("me");
-        List<String> songs2 = List.of("test 1", "test 2", "test 3", "test 4");
-        Album album = new Album(me,"you got this",2090,Genre.Lofi,"slowly getting there", 1, 9.99, "test url 5");
-
-        when(mockRecordShopManagerImpl.insertAlbum(any(Album.class))).thenReturn(album);
-
-        this.mockMvcController.perform(
-                        MockMvcRequestBuilders.post("/api/v1/recordShop")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(mapper.writeValueAsString(album)))
-                                .andExpect(MockMvcResultMatchers.status().isCreated())
-                                .andExpect(jsonPath("$.name").value("you got this"))
-                                        .andDo(MockMvcResultHandlers.print());
-
-
-        verify(mockRecordShopManagerImpl, times(1)).insertAlbum(any(Album.class));
-
-    }
+//    @Test
+//    public void testPostMappingAddAlbum() throws Exception{
+//        Artist me = new Artist("me");
+//        List<String> songs2 = List.of("test 1", "test 2", "test 3", "test 4");
+//        Album album = new Album(me,"you got this",2090,Genre.Lofi,"slowly getting there", 1, 9.99, "test url 5");
+//
+//        when(mockRecordShopManagerImpl.insertAlbum(any(Album.class))).thenReturn(album);
+//
+//        this.mockMvcController.perform(
+//                        MockMvcRequestBuilders.post("/api/v1/recordShop")
+//                                .contentType(MediaType.APPLICATION_JSON)
+//                                .content(mapper.writeValueAsString(album)))
+//                                .andExpect(MockMvcResultMatchers.status().isCreated())
+//                                .andExpect(jsonPath("$.name").value("you got this"))
+//                                        .andDo(MockMvcResultHandlers.print());
+//
+//
+//        verify(mockRecordShopManagerImpl, times(1)).insertAlbum(any(Album.class));
+//
+//    }
 
     @Test
     public void testPostMappingAddAlbumWhenSubmittingDTO() throws Exception{
@@ -131,7 +131,7 @@ class RecordShopManagerControllerTests {
         when(mockRecordShopManagerImpl.insertAlbumFromDTO(any(AlbumArtistGenreResponseDTO.class))).thenReturn(albumArtistGenreResponseDTO);
 
         this.mockMvcController.perform(
-                        MockMvcRequestBuilders.post("/api/v1/recordShop/dtoPostAlbums")
+                        MockMvcRequestBuilders.post("/api/v1/recordShop")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(mapper.writeValueAsString(albumArtistGenreResponseDTO)))
                 .andExpect(MockMvcResultMatchers.status().isCreated())
@@ -147,13 +147,15 @@ class RecordShopManagerControllerTests {
     public void addAlbum_WithValidInput_ShouldReturnCreated() throws Exception {
         Artist me = new Artist("me");
         Album album = new Album(me, "Test Album", 2024, Genre.Rock, "Description", 10, 29.99, "test url 8");
-        when(mockRecordShopManagerImpl.insertAlbum(any(Album.class))).thenReturn(album);
+        AlbumArtistGenreResponseDTO albumArtistGenreResponseDTO = new AlbumArtistGenreResponseDTO(album);
+
+        when(mockRecordShopManagerImpl.insertAlbumFromDTO(any(AlbumArtistGenreResponseDTO.class))).thenReturn(albumArtistGenreResponseDTO);
 
         mockMvcController.perform(post("/api/v1/recordShop")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(new ObjectMapper().writeValueAsString(album)))
+                        .content(new ObjectMapper().writeValueAsString(albumArtistGenreResponseDTO)))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.name").value("Test Album"))
+                .andExpect(jsonPath("$.albumName").value("Test Album"))
                 .andExpect(jsonPath("$.price").value(29.99));
     }
 
