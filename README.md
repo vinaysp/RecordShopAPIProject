@@ -36,15 +36,15 @@ Through the use of this application and its API endpoints users are able to;
 2) Open Project within Intellij IDEA
 3) Create your own properties file under the resource folder
 4) Copy example details as follows into your properties file:
-   #Database Configuration <br />  
-   spring.datasource.url=${POSTGRES_URL} <br />  
-   spring.datasource.username=${POSTGRES_USERNAME} <br />  
-   spring.datasource.password=${POSTGRES_PASSWORD} <br />  
-   #Spotify API Configuration <br />  
-   spotify.client.id=${SPOTIFY_CLIENT_ID} <br />  
-   spotify.client.secret=${SPOTIFY_CLIENT_SECRET} <br />  
-   #Application Configuration <br />  
-   album.image.fallback=${FALLBACK_IMAGE_URL} (this is the default url that will be populated if album name or artist name is not real or albumImageUrl field is left blank)
+   - #Database Configuration  
+   - spring.datasource.url=${POSTGRES_URL} <br />  
+   - spring.datasource.username=${POSTGRES_USERNAME} <br />  
+   - spring.datasource.password=${POSTGRES_PASSWORD} <br />  
+   - #Spotify API Configuration <br />  
+   - spotify.client.id=${SPOTIFY_CLIENT_ID} <br />  
+   - spotify.client.secret=${SPOTIFY_CLIENT_SECRET} <br />  
+   - #Application Configuration <br />  
+   - album.image.fallback=${FALLBACK_IMAGE_URL} (this is the default url that will be populated if album name or artist name is not real or albumImageUrl field is left blank)
 5) Replace environment variable with actual values
 6) Remember to add properties file to your gitignore file
 7) Run application 
