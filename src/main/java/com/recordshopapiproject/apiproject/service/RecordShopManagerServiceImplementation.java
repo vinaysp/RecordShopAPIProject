@@ -30,12 +30,12 @@ public class RecordShopManagerServiceImplementation implements RecordShopManager
     @Autowired
     SpotifyApiServiceImplementation spotifyService;
 
-    @Override
-    public List<Album> getAllAlbums() {
-        List<Album> albums = new ArrayList<>();
-        recordShopManagerRepository.findAll().forEach(albums::add);
-        return albums;
-    }
+//    @Override
+//    public List<Album> getAllAlbums() {
+//        List<Album> albums = new ArrayList<>();
+//        recordShopManagerRepository.findAll().forEach(albums::add);
+//        return albums;
+//    }
 
     @Override
     public List<AlbumArtistGenreResponseDTO> getResponseDTO(){
@@ -49,14 +49,14 @@ public class RecordShopManagerServiceImplementation implements RecordShopManager
     }
 
 
-    @Override
-    public Album insertAlbum(Album album) {
-        if (album.getArtist() != null) {
-            Artist artist = artistRepository.save(album.getArtist());
-            album.setArtist(artist);
-        }
-        return recordShopManagerRepository.save(album);
-    }
+//    @Override
+//    public Album insertAlbum(Album album) {
+//        if (album.getArtist() != null) {
+//            Artist artist = artistRepository.save(album.getArtist());
+//            album.setArtist(artist);
+//        }
+//        return recordShopManagerRepository.save(album);
+//    }
 
     @Override
     public AlbumArtistGenreResponseDTO insertAlbumFromDTO(AlbumArtistGenreResponseDTO albumArtistGenreResponseDTO){
@@ -95,11 +95,11 @@ public class RecordShopManagerServiceImplementation implements RecordShopManager
 //        return recordShopManagerRepository.findById(ID);
 //    }
 
-    @Override
-    public Album getAlbumById(Long ID) throws Exception {
-        return recordShopManagerRepository.findById(ID)
-                .orElseThrow(() -> new Exception("Album not found with id: " + ID));
-    }
+//    @Override
+//    public Album getAlbumById(Long ID) throws Exception {
+//        return recordShopManagerRepository.findById(ID)
+//                .orElseThrow(() -> new Exception("Album not found with id: " + ID));
+//    }
 
     @Override
     public AlbumArtistGenreResponseDTO getAlbumByIdReturnDTO(Long ID) throws Exception{
@@ -108,32 +108,32 @@ public class RecordShopManagerServiceImplementation implements RecordShopManager
         return mapper.convertEntityToDto(returnedAlbum);
     }
 
-    @Override
-    public Album updateAlbum(Long id, Album albumDetails) throws Exception {
-        Album album = recordShopManagerRepository.findById(id)
-                .orElseThrow(() -> new Exception("Album not found with id: " + id));
-
-        album.setName(albumDetails.getName());
-        album.setReleaseYear(albumDetails.getReleaseYear());
-        album.setGenre(albumDetails.getGenre());
-        album.setDescription(albumDetails.getDescription());
-        album.setStock(albumDetails.getStock());
-        album.setPrice(albumDetails.getPrice());
-        album.setImageUrl(albumDetails.getImageUrl());
-
-        if (albumDetails.getArtist() != null) {
-            Artist existingArtist = album.getArtist();
-            if (existingArtist != null) {
-                existingArtist.setArtistName(albumDetails.getArtist().getArtistName());
-            }
-
-            album.setArtist(existingArtist);
-        } else {
-            album.setArtist(albumDetails.getArtist());
-        }
-
-        return recordShopManagerRepository.save(album);
-    }
+//    @Override
+//    public Album updateAlbum(Long id, Album albumDetails) throws Exception {
+//        Album album = recordShopManagerRepository.findById(id)
+//                .orElseThrow(() -> new Exception("Album not found with id: " + id));
+//
+//        album.setName(albumDetails.getName());
+//        album.setReleaseYear(albumDetails.getReleaseYear());
+//        album.setGenre(albumDetails.getGenre());
+//        album.setDescription(albumDetails.getDescription());
+//        album.setStock(albumDetails.getStock());
+//        album.setPrice(albumDetails.getPrice());
+//        album.setImageUrl(albumDetails.getImageUrl());
+//
+//        if (albumDetails.getArtist() != null) {
+//            Artist existingArtist = album.getArtist();
+//            if (existingArtist != null) {
+//                existingArtist.setArtistName(albumDetails.getArtist().getArtistName());
+//            }
+//
+//            album.setArtist(existingArtist);
+//        } else {
+//            album.setArtist(albumDetails.getArtist());
+//        }
+//
+//        return recordShopManagerRepository.save(album);
+//    }
 
     @Override
     @Transactional
@@ -184,6 +184,7 @@ public class RecordShopManagerServiceImplementation implements RecordShopManager
             if (album.getArtist() != null && !album.getArtist().equals(artist)) {
                 album.getArtist().removeAlbum(album);
             }
+            album.setArtist(artist);
             artist.addAlbum(album);
             album.setArtist(artist);
         }
