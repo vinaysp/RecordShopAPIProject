@@ -22,6 +22,7 @@ Through the use of this application and its API endpoints users are able to;
 - H2 In-Memory Database for testing
 - PostgreSQL for data persistance in production
 - Spotify Web Api 
+- Postman
 
 # Prequisites for running application locally
 - Intellij IDE installed
@@ -29,7 +30,7 @@ Through the use of this application and its API endpoints users are able to;
 - Maven installed
 - PostgreSQL installed with local database called "record_shop" created and running. 
 - Spotify account with spotify client id, client secret created , please see [Getting started with Web API](https://developer.spotify.com/documentation/web-api/tutorials/getting-started) for instructions
-
+- Postman Installed 
 
 # Application setup
 1) Clone this repository using : `git clone https://github.com/vinaysp/RecordShopAPIProject.git` in command line
@@ -47,8 +48,9 @@ Through the use of this application and its API endpoints users are able to;
    - album.image.fallback=${FALLBACK_IMAGE_URL} (this is the default url that will be populated if album name or artist name is not real or albumImageUrl field is left blank)
 5) Replace environment variable with actual values
 6) Remember to add properties file to your gitignore file
-7) Run application 
-8) Access API through the following link: http://localhost:8080
+7) Run application
+8) Access API through entering into your browser address bar: http://localhost:8080/ and relevant endpoint below
+e.g (http://localhost:8080/api/v1/recordshop to retrieve all albums)
 
 # API endpoints
 
