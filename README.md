@@ -63,6 +63,10 @@ e.g (http://localhost:8080/api/v1/recordshop to retrieve all albums)
 |/api/v1/recordShop/{albumId}|	PUT|	Update existing album|
 |/api/v1/recordShop/{id}|	DELETE|	Delete album by id|
 
+# Video Demos 
+
+[Get request - Retrieve all albums Demonstration](https://raw.githubusercontent.com/vinaysp/RecordShopApiVideos/blob/main/Record%20Shop%20API%20-%20Retrieve%20All%20Albums.png)](https://raw.githubusercontent.com/vinaysp/RecordShopApiVideos/main/blob/main/GetAllAlbums.mp4)
+
 # Latest Updates
 - Feb 10 2025 
 - Implemented data transfer objects to structure JSON outputs from API endpoints in a more friendly manner. JSON structure no longer contains nested objects.
