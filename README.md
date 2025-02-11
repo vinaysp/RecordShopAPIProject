@@ -47,10 +47,11 @@ Through the use of this application and its API endpoints users are able to;
    - #Application Configuration <br />  
    - album.image.fallback=${FALLBACK_IMAGE_URL} (this is the default url that will be populated if album name or artist name is not real or albumImageUrl field is left blank)
 5) Replace environment variable with actual values
-6) Remember to add properties file to your gitignore file
+6) add properties file to your gitignore
 7) Run application
-8) Access API through entering into your browser address bar: http://localhost:8080/ and relevant endpoint below
+8) Access API through entering into your web browser address bar: http://localhost:8080/ and relevant endpoints below
 e.g (http://localhost:8080/api/v1/recordshop to retrieve all albums)
+9) Alternatively create and send HTTP requests using Postman 
 
 # API endpoints
 
